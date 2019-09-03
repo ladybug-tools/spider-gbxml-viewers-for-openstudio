@@ -239,6 +239,16 @@ function init() {
 	THRU.axesHelper = new THREE.AxesHelper( 100 );
 	THR.scene.add( THRU.axesHelper );
 
+	FOB.fileInfo = "<br>tbd";
+
+	POP.popup = "";
+	
+	POP.footer =
+	"<div><span id=POPspanInfo ></div>";
+
+	// <button onclick=POP.requestFile(POP.popup,divDragMoveContent); >🏠</button>&nbsp;
+	// <button onclick=POP.requestFile(POP.license,divDragMoveContent); >⚖️</button>&nbsp;
+
 }
 
 </script>

@@ -70,7 +70,7 @@
 
 filesSource = [
 
-	"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js",
+	//"https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js",
 	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/build/three.min.js",
 	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/examples/js/controls/OrbitControls.js",
 
@@ -179,7 +179,7 @@ function saveFile() {
 	let blob = new Blob( [ ifr.srcdoc ] );
 	let a = document.body.appendChild( document.createElement( 'a' ) );
 	a.href = window.URL.createObjectURL( blob );
-	a.download = 'gbxml-core.html';
+	a.download = 'gbxml-popup.html';
 	a.click();
 	a = null;
 

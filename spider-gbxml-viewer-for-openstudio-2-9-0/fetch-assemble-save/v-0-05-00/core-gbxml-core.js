@@ -68,6 +68,8 @@ function init() {
 	THRU.axesHelper = new THREE.AxesHelper( 100 );
 	THR.scene.add( THRU.axesHelper );
 
+	FOB.fileInfo = "<br>tbd";
+
 }
 
 </script>
