@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Open gbXML fies in an Iframe" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-09-02" >
+<meta name = "version" content = "0.00.00" >
+<title>Embeddable in Iframe gbXML Popup</title>
+<style>
+
+	* { box-sizing: border-box; }
+
+	:root { --mnu-width: 22rem; --screen-width: calc( 100vw ); --headerHeight: 6rem; }
+
+	html { height: 100%; }
+
+	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; padding: 0 0.5rem; }
+
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+</style>
+</head>
+<body>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+		<p>
+			<button id=but onclick=requestUrl(); >Open Clifton Downs</button>
+
+			<button id=but onclick=requestUrl("https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/omha-nb-zneth.xml"); >Open Omaha NB</button>
+		</p>
+
+	</nav>
+
+	<main>
+
+		<div id="divContents" ></div>
+
+		<div style=height:500px;resize:both;overflow:hidden;width:100%;>
+
+			<iframe id=ifr src=gbxml-popup.html style=height:100%;width:100%; ></iframe>
+
+		</div>
+
+
+	</main>
+
+
+<script>
+
+const urlSourceCode = "https://github.com/zzzzz/xxxxx.html";
+const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
+
+init();
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+}
+
+
+function requestUrl( url ) {
+
+	url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml"
+
+	requestFile( url );
+
+}
+
+
+function requestFile( url ) {
+
+	const xhr = new XMLHttpRequest();
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+		function callback( xhr ) {
+
+			let response, json, lines;
+
+			response = xhr.target.response;
+			//console.log( 'response', response );
+
+			ifr.contentWindow.GBX.parseFile( response );
+
+		}
+
+}
+
+
+function getTitle() {
+
+	document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	const version = document.head.querySelector( "[ name=version ]" ).content;
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 style=opacity:0.5; >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title } ${ version }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>
