@@ -3,9 +3,21 @@
 Source code and help for Spider gbXML Viewers included with NREL's OpenStudio progam
 
 
-## [Spider gbXML Viewer for OpenStudio 2.9.0]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-00-00/gbxml-popup.html )
+## [Spider gbXML Viewer Popup for OpenStudio 2.9.0]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-00-00/gbxml-popup.html )
 * With popup menu
 
+## [Spider gbXML Viewer Popup test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-00-00/embeddable-in-iframe-popup.html )
+
+* Popup viewer embedded in an Iframe
+* Buttons load drawings via iframe.contentWindow.GBX.parseFile( gbxml-text );
+
+## [Spider gbXML Viewer Core for OpenStudio 2.9.0]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-00-00/gbxml-core.html )
+* Bare bones version
+
+## [Spider gbXML Viewer Core test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-00-00/embeddable-in-iframe-core.html )
+
+* Core viewer embedded in an Iframe
+* Buttons load drawings via iframe.contentWindow.GBX.parseFile( gbxml-text );
 
 
 ## OpenStudio Requirements / 2019-09-02
