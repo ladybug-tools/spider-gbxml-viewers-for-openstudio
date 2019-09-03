@@ -1,7 +1,6 @@
 
 const sourceTop =
 `
-
 <!doctype html>
 <html lang="en" >
 <head>
@@ -39,92 +38,134 @@ const sourceBottom =
 `
 </script>
 
-<nav id = "navMenu" >
 
-<div id = "divTitle" ></div>
+	<div id = "divMenu" >
 
-<p>
-	<button onclick="sceneRotation = sceneRotation === 1 ? 0 : 1;" >rotation</button>
-</p>
+		<div id = "divTitle" ></div>
 
-<p>
-	<input type="range" id="inpSpeed" onclick="sceneRotation=0.03 * this.value;" />
-</p>
+		<p>
+			<button onclick = "controls.autoRotate=!controls.autoRotate;" >rotation</button>
 
-<div id = "divLog" ></div>
+			<button onclick = "zoomObjectBoundingSphere(GBX.surfaceEdges);" >zoomObjectBoundingSphere</button>
 
-</nav>
+		</p>
+
+		<div id = "divLog" ></div>
+
+	</div>
 
 <script>
 
 
-const urlSourceCode = "https://github.com/zzzzz/zzzzz.github.io/tree/master/xxxxx/";
-
-let sceneRotation = 1;
-let renderer, camera, controls, scene;
+var renderer, camera, controls, scene;
+var lightAmbient, lightDirectional, lightPoint, axesHelper;
+var geometry, material, mesh;
 
 init();
 animate();
 
 function init() {
 
-renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true } );
-renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
 
-camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
-camera.position.set( - 100, - 100, 100 );
-camera.up.set( 0, 0, 1 );
+	renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true }  );
+	renderer.setSize( window.innerWidth, window.innerHeight );
 
-controls = new THREE.TrackballControls( camera, renderer.domElement );
-controls.rotateSpeed = 4;
+	document.body.appendChild( renderer.domElement );
 
-scene = new THREE.Scene();
+	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
+	camera.position.set( -100, -100, 100 );
+	camera.up.set( 0, 0, 1 );
 
-window.addEventListener( 'resize', onWindowResize, false );
-window.addEventListener( 'orientationchange', onWindowResize, false );
-window.addEventListener( 'keyup', () => sceneRotation = 0, false );
-renderer.domElement.addEventListener( 'click', () => sceneRotation = 0, false );
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-const axesHelper = new THREE.AxesHelper( 100 );
-scene.add( axesHelper );
+	scene = new THREE.Scene();
 
-const geometry = new THREE.BoxGeometry( 50, 50, 50 );
-const material = new THREE.MeshNormalMaterial();
-const mesh = new THREE.Mesh( geometry, material );
-scene.add( mesh );
+	lightAmbient = new THREE.AmbientLight( 0x444444 );
+	scene.add( lightAmbient );
+
+	lightDirectional = new THREE.DirectionalLight( 0xffffff, 1 );
+	lightDirectional.shadow.mapSize.width = 2048;  // default 512
+	lightDirectional.shadow.mapSize.height = 2048;
+	lightDirectional.castShadow = true;
+	scene.add( lightDirectional );
+
+	lightPoint = new THREE.PointLight( 0xffffff, 0.5 );
+	lightPoint.position = new THREE.Vector3( 0, 0, 1 );
+
+	camera.add( lightPoint );
+	scene.add( camera );
+
+	const geometry = new THREE.BoxGeometry( 50, 50, 50 );
+	const material = new THREE.MeshNormalMaterial();
+	mesh = new THREE.Mesh( geometry, material );
+	scene.add( mesh );
 
 }
 
+
+function setGbXml ( text ) {
+
+	var _scene;
+	timeStart = Date.now();
+
+	try {
+		//meshes = GBX.parseFileXML( text );
+		(_scene = scene).add.apply(_scene, mesh);
+		zoomObjectBoundingSphere( mesh );
+		// divLog.innerHTML = "Success: " + (Date.now() - timeStart) + " ms<br><br>";
+		// divLog.innerHTML += "Please visit full spider viewer at https://www.ladybug.tools/spider/gbxml-viewer  (note full site is not yet available in embedded viewer) to edit and inspect your file in more detail.<br>"
+	}
+	catch(err) {
+		// divLog.innerHTML = "Error: " + err.message + "<br><br>";
+		// divLog.innerHTML += "You may still be able to preview and merge this file using OSM translation tools.<br><br>"
+		// divLog.innerHTML += "Please visit full spider viewer at https://www.ladybug.tools/spider/gbxml-viewer  (note full site is not yet available in embedded viewer) to edit and inspect your file in more detail.<br>"
+	}
+
+}
+
+/////////
+
+function zoomObjectBoundingSphere ( obj ) {
+
+	const bbox = new THREE.Box3().setFromObject( obj );
+
+	const sphere = bbox.getBoundingSphere( new THREE.Sphere() );
+	const center = sphere.center;
+	const radius = sphere.radius;
+
+	controls.target.copy( center );
+	controls.maxDistance = 5 * radius;
+
+	camera.position.copy( center.clone().add( new THREE.Vector3( 1.0 * radius, - 1.0 * radius, 1.0 * radius ) ) );
+	camera.far = 10 * radius; //2 * camera.position.length();
+	camera.updateProjectionMatrix();
+
+	lightDirectional.position.copy( center.clone().add( new THREE.Vector3( -1.5 * radius, -1.5 * radius, 1.5 * radius ) ) );
+	lightDirectional.shadow.camera.scale.set( 0.2 * radius, 0.2 * radius, 0.01 * radius );
+	lightDirectional.target = obj;
+
+};
 
 
 function onWindowResize() {
 
-camera.aspect = window.innerWidth / window.innerHeight;
-camera.updateProjectionMatrix();
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
 
-renderer.setSize( window.innerWidth, window.innerHeight );
-
-controls.handleResize();
-
-//console.log( 'onWindowResize  window.innerWidth', window.innerWidth );
+	renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
 
 
-
 function animate() {
 
-requestAnimationFrame( animate );
-renderer.render( scene, camera );
-controls.update();
-scene.rotation.z += sceneRotation / 1000;
+	requestAnimationFrame( animate );
+	renderer.render( scene, camera );
+	controls.update();
 
 }
 
 </script>
 </body>
 </html>
-
 `;

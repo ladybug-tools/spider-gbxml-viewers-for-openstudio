@@ -65,7 +65,7 @@
 filesSource = [
 
 	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/build/three.min.js",
-	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/examples/js/controls/TrackballControls.js"
+	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/examples/js/controls/OrbitControls.js"
 
 ];
 
@@ -128,7 +128,7 @@ function saveFile() {
 	let blob = new Blob( [ ifr.srcdoc ] );
 	let a = document.body.appendChild( document.createElement( 'a' ) );
 	a.href = window.URL.createObjectURL( blob );
-	a.download = 'threejs.html';
+	a.download = 'threejs-safe.html';
 	a.click();
 	a = null;
 
