@@ -27,3 +27,8 @@ Source code and help for Spider gbXML Viewers included with NREL's OpenStudio pr
 * We don’t yet support a workflow where the user could fix the file in the app so we would want to hide the fixer menus
 * We need some type of method (e.g. setGbXml) that I can call from the app to pass in our gbXML file as a string
 
+
+## Using Chromium ~r45
+
+* Do not use Let
+* Do not use default function parameters

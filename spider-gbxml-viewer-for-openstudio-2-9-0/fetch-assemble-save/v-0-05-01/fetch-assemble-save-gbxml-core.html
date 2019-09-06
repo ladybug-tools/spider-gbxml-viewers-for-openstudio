@@ -5,7 +5,7 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Request multiple scripts, assemble them into a working HTML file, display in iframe, save to disk" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-09-02" >
+<meta name = "date" content = "2019-09-05" >
 <meta name = "version" content = "0.05.0" >
 <title></title>
 <style>
@@ -35,7 +35,7 @@
 </style>
 </head>
 <body>
-<script id=cor src="core-threejs-safe.js" ></script>
+<script id=cor src="core-gbxml-core.js" ></script>
 
 	<nav id="navMenu" >
 
@@ -55,7 +55,12 @@
 
 		<iframe id=ifr style=height:500px;width:100%; ></iframe>
 
-		<p><button onclick=saveFile(); >Save File</button></p>
+		<p>
+
+
+			<button onclick=requestXmlFile(); >get test file</button>
+
+			<button onclick=saveFile(); >Save File</button></p>
 
 	</main>
 
@@ -64,8 +69,13 @@
 
 filesSource = [
 
-	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/build/three.min.js",
-	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/examples/js/controls/OrbitControls.js"
+	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/build/three.min.js",
+	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/examples/js/controls/OrbitControls.js",
+	"js-core-three/thr-threejs-os.js",
+	"js-core-three/thru-threejs-utilities-os.js",
+	"js-core-gbxml/gbx-gbxml-parser-os.js"
+
+
 
 ];
 
@@ -121,12 +131,37 @@ function callback( xhr, index ) {
 }
 
 
+
+function requestXmlFile( url ) {
+
+	url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml";
+
+	const xhr = new XMLHttpRequest();
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+		function callback( xhr ) {
+
+			let response, json, lines;
+
+			response = xhr.target.response;
+			//console.log( 'response', response );
+
+			ifr.contentWindow.setGbXml( response );
+
+		}
+
+}
+
 function saveFile() {
 
 	let blob = new Blob( [ ifr.srcdoc ] );
 	let a = document.body.appendChild( document.createElement( 'a' ) );
 	a.href = window.URL.createObjectURL( blob );
-	a.download = 'embeddable_gbxml_editor.html';
+	a.download = "threejs.html";
 	a.click();
 	a = null;
 

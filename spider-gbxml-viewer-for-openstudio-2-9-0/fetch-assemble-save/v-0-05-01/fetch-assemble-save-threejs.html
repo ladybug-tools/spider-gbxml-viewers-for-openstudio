@@ -35,7 +35,7 @@
 </style>
 </head>
 <body>
-<script id=cor src="core-threejs-safe.js" ></script>
+<script id=cor src="core-threejs.js" ></script>
 
 	<nav id="navMenu" >
 
@@ -64,8 +64,14 @@
 
 filesSource = [
 
-	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/build/three.min.js",
-	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/examples/js/controls/OrbitControls.js"
+	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/build/three.min.js",
+	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/examples/js/controls/OrbitControls.js",
+	"js-core-three/thr-threejs-os.js",
+	"js-core-three/thru-threejs-utilities-os.js"
+	//,
+	//"js-core-gbxml/gbx-gbxml-parser-os.js"
+
+
 
 ];
 
@@ -126,7 +132,7 @@ function saveFile() {
 	let blob = new Blob( [ ifr.srcdoc ] );
 	let a = document.body.appendChild( document.createElement( 'a' ) );
 	a.href = window.URL.createObjectURL( blob );
-	a.download = 'embeddable_gbxml_editor.html';
+	a.download = "threejs.html";
 	a.click();
 	a = null;
 

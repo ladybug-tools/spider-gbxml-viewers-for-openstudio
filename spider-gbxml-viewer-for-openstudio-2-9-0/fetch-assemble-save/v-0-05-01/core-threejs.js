@@ -13,6 +13,7 @@ const sourceTop =
 <style>
 
 	body { font: 11pt monospace; margin: 0; overflow: hidden; }
+
 	a { color: crimson; text-decoration: none; }
 	a:hover, a:focus { background-color: yellow; color: #aaa; text-decoration: underline }
 
@@ -25,7 +26,7 @@ const sourceTop =
 </head>
 <body>
 <script>
-// https://cdn.rawgit.com/mrdoob/three.js/r94/build/three.min.js
+// https://cdn.rawgit.com/mrdoob/three.js/r108/build/three.min.js
 
 `;
 
@@ -37,28 +38,58 @@ const sourceBottom =
 `
 
 </script>
+
+
 	<div id = "divMenu" >
 
 		<div id = "divTitle" ></div>
 
 		<p>
-			<button onclick = "controls.autoRotate=!controls.autoRotate;" >rotation</button>
-
-			<button onclick = "zoomObjectBoundingSphere(GBX.surfaceEdges);" >zoomObjectBoundingSphere</button>
-
+			<button onclick = "THR.controls.autoRotate=!THR.controls.autoRotate;" >rotation</button>
+		</p>
+		<p>
+			<button onclick = "THRU.zoomObjectBoundingSphere();" >zoomObjectBoundingSphere</button>
+		</p>
+		<p>
+			<button onclick = "THRU.setSceneDispose();" >setSceneDispose</button>
+		</p>
+		<p>
+			<button onclick = "THRU.getRendererInfo();" >getRenderInfo</button>
+		</p>
+		<p>
+			<button onclick = "THRU.setStats();" >set stats</button>
 		</p>
 
 		<p>
-			<button onclick = "setSceneDispose( [ GBX.surfaceMeshes, GBX.surfaceEdges, GBX.surfaceOpenings, axesHelper ] );" >setSceneDispose</button>
-			<button onclick = "getRenderInfo();" >getRenderInfo</button>
+			<button onclick = "THRU.toggleWireframe()" >wireframe</button>
+		</p>
+		<p>
+			<button onclick = "THRU.toggleMeshesVisible()" >surfaces</button>
+		</p>
+		<p>
+			<button onclick = "THRU.toggleSurfaceNormalsVisible()" >surface normals</button>
+		</p>
+		<p>
+			<button onclick = "THRU.toggleAxesHelper()" >axes helper</button>
+		</p>
+		<p>
+			<button onclick = "THRU.toggleBoundingBoxHelper()" >bounding box</button>
+		</p>
+		<p>
+			<button onclick = "THRU.toggleGroundHelper()" >ground helper</button>
+		</p>
+		<p>
+			<button onclick = "THRU.toggleEdges()" >edges</button>
 		</p>
 
+		<!--
 		<p>
-			<button onclick = "GBX.surfaceMeshes.visible=!GBX.surfaceMeshes.visible;" >surfaces</button>
 			<button onclick = "GBX.surfaceEdges.visible=!GBX.surfaceEdges.visible;" >edges</button>
 			<button onclick = "GBX.surfaceOpenings.visible=!GBX.surfaceOpenings.visible;" title="toggle the windows" >openings</button>
 			<button onclick = "GBX.surfaceMeshes.visible=GBX.surfaceEdges.visible=GBX.surfaceOpenings.visible=true;" >all visible</button>
 		</p>
+
+		-->
 
 		<div id = "divLog" ></div>
 
@@ -67,76 +98,35 @@ const sourceBottom =
 <script>
 
 
-	var timeStart;
-
-	var renderer, camera, controls, scene;
-	var lightAmbient, lightDirectional, lightPoint, axesHelper;
-	var geometry, material, mesh;
-
 	init();
 	animate();
 
 	function init() {
 
-		const source = "https://github.com/ladybug-tools/spider-gbxml-tools/tree/develop/gbxml-viewer-basic";
-		const title = document.title;
+		THR.initializeThreejs();
 
-		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true }  );
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		THRU.initializeThreejsUtilities();
 
-		document.body.appendChild( renderer.domElement );
-
-		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
-		camera.position.set( -100, -100, 100 );
-		camera.up.set( 0, 0, 1 );
-
-		controls = new THREE.OrbitControls( camera, renderer.domElement );
-
-		scene = new THREE.Scene();
-
-		lightAmbient = new THREE.AmbientLight( 0x444444 );
-		scene.add( lightAmbient );
-
-		lightDirectional = new THREE.DirectionalLight( 0xffffff, 1 );
-		lightDirectional.shadow.mapSize.width = 2048;  // default 512
-		lightDirectional.shadow.mapSize.height = 2048;
-		lightDirectional.castShadow = true;
-		scene.add( lightDirectional );
-
-		lightPoint = new THREE.PointLight( 0xffffff, 0.5 );
-		lightPoint.position = new THREE.Vector3( 0, 0, 1 );
-
-		camera.add( lightPoint );
-		scene.add( camera );
-
-		window.addEventListener( 'resize', onWindowResize, false );
-
-		window.addEventListener( 'orientationchange', onWindowResize, false );
-
-		const geometry = new THREE.BoxGeometry( 50, 50, 50 );
-		const material = new THREE.MeshNormalMaterial();
-		mesh = new THREE.Mesh( geometry, material );
-		scene.add( mesh );
 
 	}
 
 
-
 	function setGbXml ( text ) {
 
-		var _scene;
+		//var _scene;
 		timeStart = Date.now();
 
 		try {
 
-			//meshes = GBX.parseFileXML( text );
-			(_scene = scene).add.apply(_scene, mesh);
-			zoomObjectBoundingSphere( mesh );
+			//const length = GBX.parseFile( text );
+			//console.log( '', length );
+			//( _scene = scene ).add.apply( _scene, mesh );
+			THRU.zoomObjectBoundingSphere( mesh );
 			divLog.innerHTML = "Success: " + (Date.now() - timeStart) + " ms<br><br>";
 			divLog.innerHTML += "Please visit full spider viewer at https://www.ladybug.tools/spider/gbxml-viewer  (note full site is not yet available in embedded viewer) to edit and inspect your file in more detail.<br>"
 
 		}
-			catch(err) {
+			catch( err ) {
 			divLog.innerHTML = "Error: " + err.message + "<br><br>";
 			divLog.innerHTML += "You may still be able to preview and merge this file using OSM translation tools.<br><br>"
 			divLog.innerHTML += "Please visit full spider viewer at https://www.ladybug.tools/spider/gbxml-viewer  (note full site is not yet available in embedded viewer) to edit and inspect your file in more detail.<br>"
@@ -182,9 +172,11 @@ const sourceBottom =
 
 	function animate() {
 
-		requestAnimationFrame( animate );
-		renderer.render( scene, camera );
-		controls.update();
+		THR.animate();
+
+		// requestAnimationFrame( animate );
+		// renderer.render( scene, camera );
+		// controls.update();
 
 	}
 
