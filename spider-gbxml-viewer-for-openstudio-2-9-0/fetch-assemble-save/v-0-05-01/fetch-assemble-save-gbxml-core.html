@@ -37,6 +37,8 @@
 <body>
 <script id=cor src="core-gbxml-core.js" ></script>
 
+
+
 	<nav id="navMenu" >
 
 		<div id="divTitle" ></div>
@@ -51,12 +53,11 @@
 
 		<div id="divContents" ></div>
 
-		<textarea id=txt style=height:200px;width:100%; ></textarea>
+		<textarea id=txt style=height:120px;width:100%; ></textarea>
 
-		<iframe id=ifr style=height:500px;width:100%; ></iframe>
+		<iframe id=ifr style=height:600px;width:100%; ></iframe>
 
 		<p>
-
 
 			<button onclick=requestXmlFile(); >get test file</button>
 
@@ -67,7 +68,8 @@
 
 <script>
 
-filesSource = [
+
+var filesSource = [
 
 	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/build/three.min.js",
 	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/examples/js/controls/OrbitControls.js",
@@ -75,16 +77,16 @@ filesSource = [
 	"js-core-three/thru-threejs-utilities-os.js",
 	"js-core-gbxml/gbx-gbxml-parser-os.js"
 
-
-
 ];
 
 
 
-let scripts = [];
+var scripts = [];
 
-const urlSourceCode = "https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/sandbox/fetch-assemble-save/";
+const urlSourceCode =
+	"https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/sandbox/fetch-assemble-save/";
 const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
+
 
 init();
 
@@ -93,7 +95,6 @@ function init() {
 	divTitle.innerHTML = getTitle();
 
 }
-
 
 
 function assembleFiles() {
@@ -107,7 +108,7 @@ function requestFile( url, index ) {
 
 	const xhr = new XMLHttpRequest();
 	xhr.open( 'GET', url, true );
-	xhr.onprogress = ( xhr ) => console.log( '', xhr.loaded );
+	xhr.onprogress = ( xhr ) => console.log( 'index', index, xhr.loaded );
 	xhr.onload = ( xhr ) => callback( xhr, index );
 	xhr.send( null );
 
@@ -118,9 +119,9 @@ function callback( xhr, index ) {
 
 	scripts[ index ] = `${ xhr.target.response }\n\n`;
 
-	console.log( 'index', index, Object.keys( scripts).length );
+	console.log( 'index', index, Object.keys( scripts ).length );
 
-	if ( Object.keys( scripts ).length  === filesSource.length ) {
+	if ( Object.keys( scripts ).length === filesSource.length ) {
 
 		const text  = sourceTop + scripts.join( "" ) + sourceBottom ;
 		txt.innerText = text;
@@ -131,10 +132,12 @@ function callback( xhr, index ) {
 }
 
 
-
 function requestXmlFile( url ) {
 
-	url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml";
+	//url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml";
+
+	url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-down-road.xml";
+
 
 	const xhr = new XMLHttpRequest();
 	xhr.open( 'GET', url, true );
@@ -145,7 +148,7 @@ function requestXmlFile( url ) {
 
 		function callback( xhr ) {
 
-			let response, json, lines;
+			var response, json, lines;
 
 			response = xhr.target.response;
 			//console.log( 'response', response );
@@ -156,12 +159,13 @@ function requestXmlFile( url ) {
 
 }
 
+
 function saveFile() {
 
-	let blob = new Blob( [ ifr.srcdoc ] );
-	let a = document.body.appendChild( document.createElement( 'a' ) );
+	var blob = new Blob( [ ifr.srcdoc ] );
+	var a = document.body.appendChild( document.createElement( 'a' ) );
 	a.href = window.URL.createObjectURL( blob );
-	a.download = "threejs.html";
+	a.download = "threejs-gbxml-core.html";
 	a.click();
 	a = null;
 

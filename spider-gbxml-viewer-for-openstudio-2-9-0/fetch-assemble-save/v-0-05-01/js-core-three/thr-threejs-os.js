@@ -6,12 +6,12 @@
 
 var THR = {
 
-	copyright: "Copyright 2019 Ladybug Tools authors. MIT License",
-	date: "2019-09-05",
-	description: "Three.js core - the basic function to bring Three.js up in your browser",
+	copyright: "Copyright 2019 Ladybug Tools authors",
+	date: "2019-09-06",
+	description: "Three.js core - the basic functionality to bring Three.js up in your browser",
 	helpFile: "../js-view-threejs/thr-threejs.md",
 	license: "MIT License",
-	version: "0.17.01-0thr-os"
+	version: "0.17.00-0thr-os"
 
 };
 
@@ -30,36 +30,6 @@ THR.initializeThreejs = function () {
 	THR.controls = new THREE.OrbitControls( THR.camera, THR.renderer.domElement );
 
 	THR.scene = new THREE.Scene();
-
-	THR.lightAmbient = new THREE.AmbientLight( 0x888888 );
-	THR.scene.add( THR.lightAmbient );
-
-	THR.lightDirectional = new THREE.DirectionalLight( 0x888888 );
-	THR.scene.add( THR.lightDirectional );
-
-	window.addEventListener( 'resize', THR.onWindowResize, false );
-	window.addEventListener( 'orientationchange', THR.onWindowResize, false );
-
-	//window.addEventListener( 'keyup', () => sceneRotation = 0, false );
-	//THR.renderer.domElement.addEventListener( 'click', () => sceneRotation = 0, false );
-
-	//THR.axesHelper = new THREE.AxesHelper( 100 );
-	//THR.scene.add( THR.axesHelper );
-
-	// const geometry = new THREE.BoxBufferGeometry( 50, 50, 50 );
-	// const material = new THREE.MeshPhongMaterial( { color: 0xff0000 } );
-	// mesh = new THREE.Mesh( geometry, material );
-
-	// const edgesGeometry = new THREE.EdgesGeometry( mesh.geometry );
-	// const edgesMaterial = new THREE.LineBasicMaterial( { color: 0x000000 } );
-	// const surfaceEdge = new THREE.LineSegments( edgesGeometry, edgesMaterial );
-
-	// mesh.add( surfaceEdge );
-
-	// THR.scene.add( mesh );
-
-	//console.log( '', THR );
-	//console.log( '', THRU );
 
 };
 

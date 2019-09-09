@@ -6,10 +6,10 @@ const sourceTop =
 <head>
 <meta charset="utf-8" >
 <meta name="viewport" content = "width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" >
-<meta name=description content="Open, view gbXML files in 3D in your browser with free, open source entry-level Three.js JavaScript" >
+<meta name=description content="Open, view gbXML files in 3D in OpenStudio with free, open source entry-level Three.js JavaScript" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
-<meta name = "date" content = "2018-07-16" >
-<title>gbXML Viewer basic R5.2</title>
+<meta name = "date" content = "2019-09-06" >
+<title>Spider gbXML Viewer for OpenStudio v0.17.00</title>
 <style>
 
 	body { font: 11pt monospace; margin: 0; overflow: hidden; }
@@ -36,7 +36,6 @@ const sourceTop =
 const sourceBottom =
 
 `
-
 </script>
 
 
@@ -59,7 +58,6 @@ const sourceBottom =
 		<p>
 			<button onclick = "THRU.setStats();" >set stats</button>
 		</p>
-
 		<p>
 			<button onclick = "THRU.toggleWireframe()" >wireframe</button>
 		</p>
@@ -91,11 +89,13 @@ const sourceBottom =
 
 		-->
 
-		<div id = "divMsg" ></div>
+		<div id = "divTim" ></div>
+
 
 		<div id = "divLog" ></div>
 
 	</div>
+		<div id = "divMsg" style="border:1px solid red;position:absolute;max-height:90%;right:0;top:0;max-width:50%;overflow:auto;" ></div>
 
 <script>
 
@@ -117,20 +117,27 @@ const sourceBottom =
 		//var _scene;
 		timeStart = Date.now();
 
+		const htm =
+			"<p>Please visit Ladybug Tools at https://www.ladybug.tools/spider-gbxml-tools " +
+			"to edit and inspect your files in more detail.<p>";
+
+
 		try {
 
 			const length = GBX.parseFile( text );
 			console.log( 'length', length );
 			//( _scene = scene ).add.apply( _scene, mesh );
 			//THRU.zoomObjectBoundingSphere( GBX.meshGroup );
-			divLog.innerHTML = "Success: " + (Date.now() - timeStart) + " ms<br><br>";
-			divLog.innerHTML += "Please visit full spider viewer at https://www.ladybug.tools/spider/gbxml-viewer  (note full site is not yet available in embedded viewer) to edit and inspect your file in more detail.<br>"
+			divTim.innerHTML = "<p>Success: " + (Date.now() - timeStart) + " ms. " +
+				length + " surfaces</p>";
+			divLog.innerHTML += htm;
 
-		}
-			catch( err ) {
-			divLog.innerHTML = "Error: " + err.message + "<br><br>";
+		} catch( err ) {
+
+			divTim.innerHTML = "Error: " + err.message + "<br><br>";
 			divLog.innerHTML += "You may still be able to preview and merge this file using OSM translation tools.<br><br>"
-			divLog.innerHTML += "Please visit full spider viewer at https://www.ladybug.tools/spider/gbxml-viewer  (note full site is not yet available in embedded viewer) to edit and inspect your file in more detail.<br>"
+			divLog.innerHTML += htm;
+
 
 		}
 

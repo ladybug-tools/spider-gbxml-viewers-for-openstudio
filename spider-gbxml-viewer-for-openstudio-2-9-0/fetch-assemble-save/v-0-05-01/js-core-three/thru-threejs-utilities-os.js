@@ -2,16 +2,16 @@
 // jshint esversion: 6
 // jshint loopfunc: true
 
-//"use strict";
+"use strict";
 
 var THRU = {
 
-	copyright: "Copyright 2019 Ladybug Tools authors. MIT License",
+	copyright: "Copyright 2019 Ladybug Tools authors",
 	date: "2019-07-24",
 	description: "Three.js utilities",
 	helpFile: "../js-core/thru-threejs-utilities.md",
 	license: "MIT License",
-	version: "0.17.01-0thru"
+	version: "0.17.00-0thru-os"
 
 };
 
