@@ -8,7 +8,7 @@ Source code and help for Spider gbXML Viewers included with NREL's OpenStudio pr
 
 ## [Spider gbXML Viewer for OpenStudio 2.9.0]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable_gbxml_editor.html )
 * embeddable_gbxml_editor.html
-* Nothig happens when you load this file because init() and animate() are disabled so they may first called by the app doing the hosting
+* Nothing happens when you load this file because init() and animate() are disabled so they may first called by the app doing the hosting
 
 ## [Spider gbXML Viewer test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable-in-iframe-core.html )
 
