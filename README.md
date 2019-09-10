@@ -1,4 +1,4 @@
-# spider-gbxml-viewers-for-openstudio
+# Spider gbXML Viewers for OpenStudio
 
 Source code and help for Spider gbXML Viewers included with NREL's OpenStudio progam
 

@@ -46,7 +46,7 @@
 
 		<div style=height:500px;resize:both;overflow:hidden;width:100%;>
 
-			<iframe id=ifr src=gbxml-core.html style=height:100%;width:100%; ></iframe>
+			<iframe id=ifr src= threejs-gbxml-core.html style=height:100%;width:100%; ></iframe>
 
 		</div>
 
@@ -56,8 +56,12 @@
 
 <script>
 
-const urlSourceCode = "https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio/tree/master/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-00-00";
-const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
+var urlRepo =
+	"https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio/tree/master/";
+var urlSourceCode =
+	urlRepo + "spider-gbxml-viewer-for-openstudio-2-9-0/v-0-00-00";
+var urlSourceCodeIcon =
+	"https://pushme-pullyou.github.io/github-mark-32.png";
 
 init();
 
@@ -79,7 +83,7 @@ function requestUrl( url ) {
 
 function requestFile( url ) {
 
-	const xhr = new XMLHttpRequest();
+	var xhr = new XMLHttpRequest();
 	xhr.open( 'GET', url, true );
 	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
 	xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
@@ -88,9 +92,7 @@ function requestFile( url ) {
 
 		function callback( xhr ) {
 
-			let response, json, lines;
-
-			response = xhr.target.response;
+			var response = xhr.target.response;
 			//console.log( 'response', response );
 
 			ifr.contentWindow.GBX.parseFile( response );
@@ -103,9 +105,9 @@ function requestFile( url ) {
 function getTitle() {
 
 	document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
-	const version = document.head.querySelector( "[ name=version ]" ).content;
+	var version = document.head.querySelector( "[ name=version ]" ).content;
 
-	const htm =
+	var htm =
 	`
 		<h2>
 			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >

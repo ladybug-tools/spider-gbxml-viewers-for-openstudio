@@ -17,17 +17,21 @@ var THRU = {
 
 
 
-THRU.initializeThreejsUtilities= function( radius ) {
+THRU.initializeThreejsUtilities = function( radius ) {
 
 	//console.log( '', THRU );
 
 	// called from main html / assumes three.js is loaded
 
-	THRU.helperNormalsFaces = new THREE.Group();
+	THRU.helperNormalsFaces = undefined;
 
 	THRU.radius = radius || 50;
 
-	//THRU.toggleAxesHelper();
+	THRU.zoomObjectBoundingSphere();
+
+	THRU.addSomeLights2();
+
+	THRU.toggleAxesHelper();
 
 	//THR.controls.autoRotate = true;
 
@@ -37,7 +41,6 @@ THRU.initializeThreejsUtilities= function( radius ) {
 
 	//THRU.toggleBoundingBoxHelper();
 
-	THRU.addSomeLights2();
 
 	window.addEventListener( 'keyup', THRU.onSetRotate , false );
 	THR.renderer.domElement.addEventListener( 'click', THRU.onSetRotate, false );
@@ -45,17 +48,6 @@ THRU.initializeThreejsUtilities= function( radius ) {
 
 };
 
-
-
-THRU.onSetRotate = function() {
-
-	THR.controls.autoRotate = false;
-
-	window.removeEventListener( 'keyup', THRU.onSetRotate );
-	THR.renderer.domElement.removeEventListener( 'click', THRU.onSetRotate );
-	THR.renderer.domElement.removeEventListener( 'touchstart', THRU.onSetRotate );
-
-};
 
 
 
@@ -82,6 +74,13 @@ THRU.setSceneDispose = function( objArr ) {
 
 	THR.scene.children.forEach( child => THR.scene.remove( child ) );
 
+	THR.scene.remove( THRU.helperNormalsFaces );
+
+	THR.scene.dispose();
+
+	THR.scene = new THREE.Scene();
+
+
 };
 
 
@@ -90,7 +89,7 @@ THRU.setSceneDispose = function( objArr ) {
 
 THRU.getRendererInfo = function() {
 
-	const txt =
+	var txt =
 	"Memory" +
 	"\n- Geometries: " + THR.renderer.info.memory.geometries.toLocaleString() +
 	"\n\nRenderer" +
@@ -101,7 +100,7 @@ THRU.getRendererInfo = function() {
 
 	console.log( 'THR.renderer.info', THR.renderer.info );
 
-	// const htm =
+	// var htm =
 	// `
 	// 	<p>
 	// 		<b>memory</b><br>
@@ -132,11 +131,11 @@ THRU.getRendererInfo = function() {
 
 THRU.setStats = function() {
 
-	const script = document.createElement('script');
+	var script = document.createElement('script');
 
 	script.onload = function() {
 
-		const stats = new Stats();
+		var stats = new Stats();
 
 		document.body.appendChild( stats.dom );
 
@@ -164,12 +163,12 @@ THRU.zoomObjectBoundingSphere = function( obj ) {
 	//console.log( 'obj', obj );
 
 	obj = obj || THR.scene;
-	const bbox = new THREE.Box3().setFromObject( obj );
+	var bbox = new THREE.Box3().setFromObject( obj );
 	//console.log( 'bbox', bbox )
 
 	if ( bbox.isEmpty() === true ) { return; }
 
-	const sphere = bbox.getBoundingSphere( new THREE.Sphere() );
+	var sphere = bbox.getBoundingSphere( new THREE.Sphere() );
 	THRU.center = sphere.center;
 	THRU.radius = sphere.radius;
 
@@ -208,7 +207,7 @@ THRU.getMeshesVisible = function ( objThree ) { // not??
 
 	THRU.meshGroupVisible = new THREE.Object3D();
 
-	const arr = objThree.children.filter( mesh => mesh.visible ).map ( mesh => mesh.clone() );
+	var arr = objThree.children.filter( mesh => mesh.visible ).map ( mesh => mesh.clone() );
 	//THRU.meshGroupVisible.add( ...arr );
 
 	//console.log( 'THRU.meshGroupVisible', THRU.meshGroupVisible );
@@ -256,79 +255,19 @@ THRU.toggleWireframe = function( obj ) {
 
 
 
-THRU.toggleSurfaceNormals = function( obj ) {
-
-	obj = obj || THR.scene;
-
-	var material = new THREE.MeshNormalMaterial();
-
-	const types = [ 'BoxBufferGeometry', 'BufferGeometry', 'ConeBufferGeometry', 'CylinderBufferGeometry',
-		'ShapeBufferGeometry', 'SphereBufferGeometry' ];
-
-	if ( THRU.helperNormalsFaces === undefined ) {
-
-		THRU.helperNormalsFaces = new THREE.Group();
-
-		obj.traverse( function ( child ) {
-
-			if ( child instanceof THREE.Mesh && child.visible ) {
-
-				if ( child.geometry.type === 'Geometry' ) {
-
-					child.geometry.computeFaceNormals();
-
-					const helperNormalsFace = new THREE.FaceNormalsHelper( child, 2, 0xff00ff, 3 );
-					THRU.helperNormalsFaces.add( helperNormalsFace );
-					//THRU.helperNormalsFaces.visible = false;
-					//console.log( 'helperNormalsFace', helperNormalsFace );
-
-				} else if ( types.includes( child.geometry.type ) === true ) {
-
-					const geometry = new THREE.Geometry();
-					const geo = geometry.fromBufferGeometry( child.geometry );
-					const mesh = new THREE.Mesh( geo, material );
-					mesh.rotation.copy( child.rotation );
-					mesh.position.copy( child.position );
-
-					const helperNormalsFace = new THREE.FaceNormalsHelper( mesh, 0.05 * THRU.radius, 0xff00ff, 3 );
-					helperNormalsFace.userData.index = child.userData.index;
-
-					THRU.helperNormalsFaces.add( helperNormalsFace );
-					//THRU.helperNormalsFaces.visible = false;
-
-				} else {
-
-					//console.log( 'child.geometry.type', child.geometry.type );
-
-				}
-
-			}
-
-		} );
-
-		THRU.helperNormalsFaces.name = 'helperNormalsFaces';
-		obj.add( THRU.helperNormalsFaces );
-
-		THRU.helperNormalsFaces.visible = false;
-
-	}
-
-	THRU.helperNormalsFaces.visible = !THRU.helperNormalsFaces.visible;
-
-};
-
-
 
 THRU.toggleSurfaceNormalsVisible = function() {
 
 	var material = new THREE.MeshNormalMaterial();
 
-	const types = [ 'BoxBufferGeometry', 'BufferGeometry', 'ConeBufferGeometry', 'CylinderBufferGeometry',
+	var types = [ 'BoxBufferGeometry', 'BufferGeometry', 'ConeBufferGeometry', 'CylinderBufferGeometry',
 		'ShapeBufferGeometry', 'SphereBufferGeometry' ];
 
-	if ( THR.scene.children.includes( THRU.helperNormalsFaces ) ) {
+	if ( THRU.helperNormalsFaces ) {
 
 		THR.scene.remove( THRU.helperNormalsFaces );
+
+		THRU.helperNormalsFaces = undefined;
 
 	} else {
 
@@ -342,20 +281,20 @@ THRU.toggleSurfaceNormalsVisible = function() {
 
 					child.geometry.computeFaceNormals();
 
-					const helperNormalsFace = new THREE.FaceNormalsHelper( child, 2, 0xff00ff, 3 );
+					var helperNormalsFace = new THREE.FaceNormalsHelper( child, 2, 0xff00ff, 3 );
 					THRU.helperNormalsFaces.add( helperNormalsFace );
 					//THRU.helperNormalsFaces.visible = false;
 					//console.log( 'helperNormalsFace', helperNormalsFace );
 
-				} else if ( types.includes( child.geometry.type ) === true ) {
+				} else if ( types.indexOf( child.geometry.type ) >= 0 ) {
 
-					const geometry = new THREE.Geometry();
-					const geo = geometry.fromBufferGeometry( child.geometry );
-					const mesh = new THREE.Mesh( geo, material );
+					var geometry = new THREE.Geometry();
+					var geo = geometry.fromBufferGeometry( child.geometry );
+					var mesh = new THREE.Mesh( geo, material );
 					mesh.rotation.copy( child.rotation );
 					mesh.position.copy( child.position );
 
-					const helperNormalsFace = new THREE.FaceNormalsHelper( mesh, 0.05 * THRU.radius, 0xff00ff );
+					var helperNormalsFace = new THREE.FaceNormalsHelper( mesh, 0.05 * THRU.radius, 0xff00ff );
 					helperNormalsFace.userData.index = child.userData.index;
 
 					THRU.helperNormalsFaces.add( helperNormalsFace );
@@ -388,7 +327,7 @@ THRU.setObjectOpacity = function( obj, range ) {
 
 	range = range || rngOpacity;
 
-	const opacity = parseInt( range.value, 10 );
+	var opacity = parseInt( range.value, 10 );
 	outOpacity.value = opacity + '%';
 
 	obj.traverse( function ( child ) {
@@ -422,7 +361,7 @@ THRU.toggleAxesHelper = function() {
 	THRU.axesHelper.scale.set( THRU.radius, THRU.radius, THRU.radius );
 	THRU.axesHelper.name = "axesHelper";
 
-	const center = THRU.center || THR.scene.position;
+	var center = THRU.center || THR.scene.position;
 
 	THRU.axesHelper.position.copy( center );
 
@@ -436,7 +375,7 @@ THRU.toggleBoundingBoxHelper = function( obj ){
 
 	if ( !THRU.boundingBoxHelper ) {
 
-		const bbox = new THREE.Box3().setFromObject( obj );
+		var bbox = new THREE.Box3().setFromObject( obj );
 
 		THRU.boundingBoxHelper = new THREE.Box3Helper( bbox, 0xff0000 );
 		THRU.boundingBoxHelper.geometry.computeBoundingBox();
@@ -462,15 +401,15 @@ THRU.toggleGroundHelper = function( position, elevation ) {
 
 	if ( !THRU.groundHelper ) {
 
-		//const reElevation = /<Elevation>(.*?)<\/Elevation>/i;
+		//var reElevation = /<Elevation>(.*?)<\/Elevation>/i;
 		//GBX.elevation = GBX.text.match( reElevation )[ 1 ];
 		//console.log( 'elevation', GBX.elevation );
 
 		//elevation = GBX.boundingBox.box.min.z - 0.001 * THRU.radius;
 		//elevation = 0;
 
-		const geometry = new THREE.PlaneGeometry( 2 * THRU.radius, 2 * THRU.radius);
-		const material = new THREE.MeshPhongMaterial( { color: 0x888888, opacity: 0.5, side: 2 } );
+		var geometry = new THREE.PlaneGeometry( 2 * THRU.radius, 2 * THRU.radius);
+		var material = new THREE.MeshPhongMaterial( { color: 0x888888, opacity: 0.5, side: 2 } );
 		THRU.groundHelper = new THREE.Mesh( geometry, material );
 		THRU.groundHelper.receiveShadow = true;
 
@@ -492,17 +431,16 @@ THRU.toggleGroundHelper = function( position, elevation ) {
 
 THRU.getMeshEdges = function( obj ) {
 
-	obj = obj || THR.scene;
 
-	const meshEdges = [];
-	const lineMaterial = new THREE.LineBasicMaterial( { color: 0x888888 } );
+	var meshEdges = [];
+	var lineMaterial = new THREE.LineBasicMaterial( { color: 0x888888 } );
 
 	for ( var mesh of obj.children ) {
 
 		if ( !mesh.geometry ) { continue; }
 
-		const edgesGeometry = new THREE.EdgesGeometry( mesh.geometry );
-		const surfaceEdge = new THREE.LineSegments( edgesGeometry, lineMaterial );
+		var edgesGeometry = new THREE.EdgesGeometry( mesh.geometry );
+		var surfaceEdge = new THREE.LineSegments( edgesGeometry, lineMaterial );
 		//surfaceEdge.rotation.copy( mesh.rotation );
 		//surfaceEdge.position.copy( mesh.position );
 		mesh.add( surfaceEdge );
@@ -577,7 +515,7 @@ THRU.addSomeLights2 = function() {
 
 	THRU.lightDirectional.target = THRU.targetObject;
 
-	const position = new THREE.Vector3( 0, 0, 1 );
+	var position = new THREE.Vector3( 0, 0, 1 );
 	THRU.lightPoint = ( new THREE.PointLight( 0xffffff, 0.5, { position } ) );
 
 	THR.camera.add( THRU.lightPoint );
@@ -592,15 +530,15 @@ THRU.addSomeLights2 = function() {
 THRU.getGeometry = function() {
 
 	// useful debug snippet
-	const geometry = new THREE.TorusKnotBufferGeometry( 10, 3, 100, 16 );
-	//const geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
+	var geometry = new THREE.TorusKnotBufferGeometry( 10, 3, 100, 16 );
+	//var geometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
 
-	const material = new THREE.MeshNormalMaterial();
-	const mesh = new THREE.Mesh( geometry, material );
+	var material = new THREE.MeshNormalMaterial();
+	var mesh = new THREE.Mesh( geometry, material );
 
-	const edgesGeometry = new THREE.EdgesGeometry( geometry );
-	const edgesMaterial = new THREE.LineBasicMaterial( { color: 0x000000 } );
-	const surfaceEdge = new THREE.LineSegments( edgesGeometry, edgesMaterial );
+	var edgesGeometry = new THREE.EdgesGeometry( geometry );
+	var edgesMaterial = new THREE.LineBasicMaterial( { color: 0x000000 } );
+	var surfaceEdge = new THREE.LineSegments( edgesGeometry, edgesMaterial );
 
 	mesh.add( surfaceEdge );
 
@@ -620,21 +558,21 @@ THRU.getSomeBoxes = function( count, size, material ) {
 	size = size || 10;
 	material = material || new THREE.MeshNormalMaterial();
 
-	const geometry = new THREE.BoxBufferGeometry( size, size, size );
+	var geometry = new THREE.BoxBufferGeometry( size, size, size );
 
-	const boxes = new THREE.Group();
+	var boxes = new THREE.Group();
 
 	for ( var i = 0; i < count; i++ ) {
 
-		const mesh = new THREE.Mesh( geometry, material );
+		var mesh = new THREE.Mesh( geometry, material );
 		mesh.position.set( 100 * Math.random() - 50, 100 * Math.random() - 50, 100 * Math.random() - 50 );
 		mesh.rotation.set( 2 * Math.random(), 2 * Math.random(), 2 * Math.random() );
 
-		const edgesGeometry = new THREE.EdgesGeometry( mesh.geometry );
-		const edgesMaterial = new THREE.LineBasicMaterial( { color: 0x000000 } );
-		const surfaceEdge = new THREE.LineSegments( edgesGeometry, edgesMaterial );
+		var edgesGeometry = new THREE.EdgesGeometry( mesh.geometry );
+		var edgesMaterial = new THREE.LineBasicMaterial( { color: 0x000000 } );
+		var surfaceEdge = new THREE.LineSegments( edgesGeometry, edgesMaterial );
 
-		const placard = THRU.drawPlacard( 'box ' + i );
+		var placard = THRU.drawPlacard( 'box ' + i );
 
 		mesh.add( surfaceEdge, placard );
 
@@ -660,19 +598,19 @@ THRU.drawPlacard = function( text, scale, color, x, y, z ) {
 	y = y || 0;
 	z = z || 10;
 
-	const placard = new THREE.Object3D();
+	var placard = new THREE.Object3D();
 
-	const texture = canvasMultilineText( text, { backgroundColor: color }   );
-	const spriteMaterial = new THREE.SpriteMaterial( { map: texture, opacity: 0.9, transparent: true } );
-	const sprite = new THREE.Sprite( spriteMaterial );
+	var texture = canvasMultilineText( text, { backgroundColor: color }   );
+	var spriteMaterial = new THREE.SpriteMaterial( { map: texture, opacity: 0.9, transparent: true } );
+	var sprite = new THREE.Sprite( spriteMaterial );
 	sprite.position.set( x, y, z ) ;
 	sprite.scale.set( scale * texture.image.width, scale * texture.image.height );
 
-	//const geometry = new THREE.Geometry();
-	//const v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
+	//var geometry = new THREE.Geometry();
+	//var v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
 	//geometry.vertices = [ v( 0, 0, 0 ),  v( x, y, z ) ];
-	//const material = new THREE.LineBasicMaterial( { color: 0xaaaaaa } );
-	//const line = new THREE.Line( geometry, material );
+	//var material = new THREE.LineBasicMaterial( { color: 0xaaaaaa } );
+	//var line = new THREE.Line( geometry, material );
 	//placard.add( sprite, line );
 
 	placard.add( sprite );
@@ -684,11 +622,11 @@ THRU.drawPlacard = function( text, scale, color, x, y, z ) {
 
 		parameters = parameters || {} ;
 
-		const canvas = document.createElement( 'canvas' );
-		const context = canvas.getContext( '2d' );
+		var canvas = document.createElement( 'canvas' );
+		var context = canvas.getContext( '2d' );
 		var width = parameters.width ? parameters.width : 0;
-		const font = parameters.font ? parameters.font : '48px monospace';
-		const color = parameters.backgroundColor ? parameters.backgroundColor : 120 ;
+		var font = parameters.font ? parameters.font : '48px monospace';
+		var color = parameters.backgroundColor ? parameters.backgroundColor : 120 ;
 
 		if ( typeof textArray === 'string' ) textArray = [ textArray ];
 
@@ -719,7 +657,7 @@ THRU.drawPlacard = function( text, scale, color, x, y, z ) {
 
 		}
 
-		const texture = new THREE.Texture( canvas );
+		var texture = new THREE.Texture( canvas );
 		texture.minFilter = texture.magFilter = THREE.NearestFilter;
 		texture.needsUpdate = true;
 

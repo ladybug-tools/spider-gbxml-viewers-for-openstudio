@@ -1,5 +1,5 @@
 
-const sourceTop =
+var sourceTop =
 
 `<!doctype html>
 <html lang="en" >
@@ -33,7 +33,7 @@ const sourceTop =
 
 
 
-const sourceBottom =
+var sourceBottom =
 
 `
 </script>
@@ -47,14 +47,9 @@ const sourceBottom =
 			<button onclick = "THR.controls.autoRotate=!THR.controls.autoRotate;" >rotation</button>
 		</p>
 		<p>
-			<button onclick = "THRU.zoomObjectBoundingSphere();" >zoomObjectBoundingSphere</button>
+			<button onclick = "THRU.zoomObjectBoundingSphere();" >zoom all</button>
 		</p>
-		<p>
-			<button onclick = "THRU.setSceneDispose();" >setSceneDispose</button>
-		</p>
-		<p>
-			<button onclick = "THRU.getRendererInfo();" >getRenderInfo</button>
-		</p>
+
 		<p>
 			<button onclick = "THRU.setStats();" >set stats</button>
 		</p>
@@ -82,6 +77,13 @@ const sourceBottom =
 
 		<!--
 		<p>
+			<button onclick = "THRU.setSceneDispose();" >setSceneDispose</button>
+		</p>
+		<p>
+			<button onclick = "THRU.getRendererInfo();" >getRenderInfo</button>
+		</p>
+
+		<p>
 			<button onclick = "GBX.surfaceEdges.visible=!GBX.surfaceEdges.visible;" >edges</button>
 			<button onclick = "GBX.surfaceOpenings.visible=!GBX.surfaceOpenings.visible;" title="toggle the windows" >openings</button>
 			<button onclick = "GBX.surfaceMeshes.visible=GBX.surfaceEdges.visible=GBX.surfaceOpenings.visible=true;" >all visible</button>
@@ -95,7 +97,8 @@ const sourceBottom =
 		<div id = "divLog" ></div>
 
 	</div>
-		<div id = "divMsg" style="border:1px solid red;position:absolute;max-height:90%;right:0;top:0;max-width:50%;overflow:auto;" ></div>
+
+	<div id = "divMsg" style="border:1px solid red;position:absolute;max-height:90%;right:0;top:0;max-width:50%;overflow:auto;" ></div>
 
 <script>
 
@@ -117,14 +120,14 @@ const sourceBottom =
 		//var _scene;
 		timeStart = Date.now();
 
-		const htm =
+		var htm =
 			"<p>Please visit Ladybug Tools at https://www.ladybug.tools/spider-gbxml-tools " +
 			"to edit and inspect your files in more detail.<p>";
 
 
 		try {
 
-			const length = GBX.parseFile( text );
+			var length = GBX.parseFile( text );
 			console.log( 'length', length );
 			//( _scene = scene ).add.apply( _scene, mesh );
 			//THRU.zoomObjectBoundingSphere( GBX.meshGroup );

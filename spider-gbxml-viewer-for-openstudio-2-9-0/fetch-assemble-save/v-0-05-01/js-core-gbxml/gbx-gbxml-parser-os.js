@@ -2,13 +2,12 @@
 // jshint esversion: 6
 // jshint loopfunc: true
 
-"use strict";
 
 var GBX = {
 	script: {
 
 		copyright: "Copyright 2019 Ladybug Tools authors",
-		date: "2019-09-06",
+		date: "2019-09-09",
 		description: "Parse gbXML surfaces etc and use the data to create Three.js meshes",
 		helpFile: "../js-core-gbxml/gbx-gbxml-parser.md",
 		license: "MIT License",
@@ -17,9 +16,6 @@ var GBX = {
 	}
 
 };
-
-GBX.filtersDefault = [ "Air", "ExposedFloor", "ExteriorWall", "RaisedFloor", "Roof",  "Shade",
-	"SlabOnGrade", "UndergroundWall", "UndergroundSlab" ];
 
 
 GBX.colorsDefault = {
@@ -46,10 +42,6 @@ GBX.colorsDefault = {
 GBX.colors = Object.assign( {}, GBX.colorsDefault ); // create working copy of default colors
 GBX.surfaceTypes = Object.keys( GBX.colors );
 
-//var colors =  GBX.surfaceTypes.map( type => GBX.colorsDefault[ type ].toString( 16 ) );
-//GBX.colorsHex = colors.map( color => color.length > 4 ? color : '00' + color ); // otherwise greens no show
-
-
 GBX.opacity = 0.85;
 
 GBX.referenceObject = new THREE.Object3D();
@@ -72,7 +64,7 @@ GBX.parseFile = function( gbxml )  {
 	GBX.text = gbxml.replace( /\r\n|\n/g, '' );
 	//console.log( 'GBX.text', GBX.text );
 
-	const reSurface = /<Surface(.*?)<\/surface>/gi;
+	var reSurface = /<Surface(.*?)<\/surface>/gi;
 	GBX.surfaces = GBX.text.match( reSurface );
 	console.log( 'GBX.surfaces', GBX.surfaces.length );
 
@@ -89,11 +81,11 @@ GBX.parseFile = function( gbxml )  {
 
 	THR.scene.add( GBX.meshGroup );
 
-	const event = new Event( 'onGbxParse' );
+	var event = new Event( 'onGbxParse' );
 	document.body.dispatchEvent( event );
 	//use this: document.body.addEventListener( 'onGbxParse', yourFunction, false );
 
-	THRU.zoomObjectBoundingSphere();
+	THRU.initializeThreejsUtilities();
 
 	return GBX.surfaces.length;
 
@@ -104,27 +96,27 @@ GBX.parseFile = function( gbxml )  {
 GBX.getSurfaceMeshes = function( surfaces ) {
 	// console.log( 'surfaces', surfaces );
 
-	const timeStart = performance.now();
+	var timeStart = performance.now();
 
 	GBX.materialType = THREE.MeshPhongMaterial;
 	//GBX.materialType = THREE.MeshBasicMaterial;
 
-	const meshes = surfaces.map( ( surface ) => {
+	var meshes = surfaces.map( ( surface ) => {
 
-		const polyLoops = GBX.getPolyLoops( surface );
+		var polyLoops = GBX.getPolyLoops( surface );
 		//console.log( 'polyLoops', polyLoops );
 
-		const coordinates = GBX.getCoordinates( polyLoops[ 0 ] );
+		var coordinates = GBX.getCoordinates( polyLoops[ 0 ] );
 
-		const index = GBX.surfaces.indexOf( surface );
+		var index = GBX.surfaces.indexOf( surface );
 		//console.log( 'index', index );
 
-		const openings = polyLoops.slice( 1 ).map( polyLoop => GBX.getCoordinates( polyLoop ) );
+		var openings = polyLoops.slice( 1 ).map( polyLoop => GBX.getCoordinates( polyLoop ) );
 		//console.log( 'openings', openings );
 
 		//console.log( 'surface', surface );
 
-		const mesh = GBX.getSurfaceMesh( coordinates, index, openings );
+		var mesh = GBX.getSurfaceMesh( coordinates, index, openings );
 		//console.log( 'mesh', index, mesh );
 
 		return mesh;
@@ -142,10 +134,10 @@ GBX.getSurfaceMeshes = function( surfaces ) {
 GBX.getPolyLoops = function( surface ) {
 	//console.log( 'surface', surface );
 
-	const re = /<PlanarGeometry(.*?)<polyloop(.*?)<\/polyloop>/gi;
-	const polyloopText = surface.match( re );
+	var re = /<PlanarGeometry(.*?)<polyloop(.*?)<\/polyloop>/gi;
+	var polyloopText = surface.match( re );
 
-	const polyloops = polyloopText.map( polyloop => polyloop.replace(/<\/?polyloop>/gi, '' ) );
+	var polyloops = polyloopText.map( polyloop => polyloop.replace(/<\/?polyloop>/gi, '' ) );
 
 	return polyloops;
 
@@ -155,9 +147,9 @@ GBX.getPolyLoops = function( surface ) {
 
 GBX.getCoordinates = function( text ) {
 
-	const re = /<coordinate(.*?)<\/coordinate>/gi;
-	const coordinatesText = text.match( re );
-	const coordinates = coordinatesText.map( coordinate =>
+	var re = /<coordinate(.*?)<\/coordinate>/gi;
+	var coordinatesText = text.match( re );
+	var coordinates = coordinatesText.map( coordinate =>
 
 		coordinate.replace(/<\/?coordinate>/gi, '' ) )
 		.map( txt => Number( txt )
@@ -174,11 +166,11 @@ GBX.getSurfaceMesh = function( arr, index, holes ) {
 	//console.log( 'array', arr, 'index', index );
 
 	holes = holes || [];
-	const surface = GBX.surfaces[ index ];
+	var surface = GBX.surfaces[ index ];
 
-	const surfaceType = surface.match( 'surfaceType="(.*?)"')[ 1 ];
-	const color = new THREE.Color( GBX.colors[ surfaceType ] );
-	const v = ( arr ) => new THREE.Vector3().fromArray( arr );
+	var surfaceType = surface.match( 'surfaceType="(.*?)"')[ 1 ];
+	var color = new THREE.Color( GBX.colors[ surfaceType ] );
+	var v = ( arr ) => new THREE.Vector3().fromArray( arr );
 
 	var points, mesh, pointsHoles;
 
@@ -226,8 +218,8 @@ GBX.getSurfaceMesh = function( arr, index, holes ) {
 
 		for ( var i = 0; i < holes.length; i ++ ) {
 
-			const hole = holes[ i ];
-			const points2 = [];
+			var hole = holes[ i ];
+			var points2 = [];
 
 			for ( var j = 0; j < ( hole.length / 3 ); j ++ ) {
 
@@ -258,13 +250,13 @@ GBX.getSurfaceMesh = function( arr, index, holes ) {
 GBX.getBufferGeometry = function ( points, color ) {
 	//console.log( 'points', points, color );
 
-	const geometry = new THREE.BufferGeometry();
+	var geometry = new THREE.BufferGeometry();
 	geometry.setFromPoints( points );
 	geometry.computeVertexNormals();
 
-	const material = new GBX.materialType( { color: color, opacity: GBX.opacity, side: 2, transparent: true });
+	var material = new GBX.materialType( { color: color, opacity: GBX.opacity, side: 2, transparent: true });
 
-	const mesh = new THREE.Mesh( geometry, material );
+	var mesh = new THREE.Mesh( geometry, material );
 
 	return mesh;
 
@@ -277,7 +269,7 @@ GBX.setPolygon = function( points, color, holes, index ) {
 	//console.log( 'holes', holes );
 
 	//assume points are coplanar but at an arbitrary rotation and position in space
-	const plane = GBX.getPlane( points );
+	var plane = GBX.getPlane( points );
 	//console.log( '', index, plane );
 
 	// rotate points to lie on XY plane
@@ -285,14 +277,14 @@ GBX.setPolygon = function( points, color, holes, index ) {
 	GBX.referenceObject.quaternion.conjugate(); // figure out the angle it takes to rotate the points so they lie on the XY plane
 	GBX.referenceObject.updateMatrixWorld();
 
-	const pointsFlat = points.map( vertex => GBX.referenceObject.localToWorld( vertex ) );
+	var pointsFlat = points.map( vertex => GBX.referenceObject.localToWorld( vertex ) );
 	//console.log( { index },{ pointsFlat } );
 
 	holes.forEach( pointsHoles => pointsHoles.forEach( vertex => GBX.referenceObject.localToWorld( vertex ) ) );
 
 	// points must be coplanar with the XY plane for Earcut.js to triangulate a set of points
-	const triangles = THREE.ShapeUtils.triangulateShape( pointsFlat, holes );
-	//const triangles = THREE.ShapeUtils.triangulateShape( pointsFlat );
+	var triangles = THREE.ShapeUtils.triangulateShape( pointsFlat, holes );
+	//var triangles = THREE.ShapeUtils.triangulateShape( pointsFlat );
 	//console.log( { triangles } );
 
 	//var pointsAll = points.slice().concat( ...holes );
@@ -316,13 +308,13 @@ GBX.setPolygon = function( points, color, holes, index ) {
 
 	//divMsg.innerHTML += "<p>pointsAll2 " + index + JSON.stringify( pointsAll2 )
 
-	const pointsTriangles = [];
+	var pointsTriangles = [];
 
 	for ( var triangle of triangles ) {
 
 		for ( var j = 0; j < 3; j++ ) {
 
-			const vertex = pointsAll2[ triangle[ j ] ];
+			var vertex = pointsAll2[ triangle[ j ] ];
 
 			pointsTriangles.push( vertex );
 
@@ -331,14 +323,14 @@ GBX.setPolygon = function( points, color, holes, index ) {
 	}
 	//console.log( { pointsTriangles } );
 
-	const geometry = new THREE.BufferGeometry();
+	var geometry = new THREE.BufferGeometry();
 	geometry.setFromPoints( pointsTriangles );
 	geometry.computeVertexNormals();
 
-	const material = new GBX.materialType( {
+	var material = new GBX.materialType( {
 		color: color, opacity: GBX.opacity, side: 2, transparent: true } );
 
-	const mesh = new THREE.Mesh( geometry, material );
+	var mesh = new THREE.Mesh( geometry, material );
 	mesh.lookAt( plane.normal );
 
 	return mesh;

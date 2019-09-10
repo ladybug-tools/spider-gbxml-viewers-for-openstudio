@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "View gbXML files inside OpenStudio by NREL" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-09-09" >
+<meta name = "version" content = "0.0.0" >
+<title>Spider gbXML Viewers for OpenStudio</title>
+<style>
+
+	* { box-sizing: border-box; }
+
+	:root { --mnu-width: 22rem; --screen-width: calc( 100vw ); --headerHeight: 6rem; }
+
+	html { height: 100%; }
+
+	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; padding: 0 0.5rem; }
+
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+
+	#main { border: 0px; height: 100%; left: var( --mnu-width ); margin: 0;
+		padding: 0 3rem; position: absolute; width: calc( 100% - var( --mnu-width ) );  }
+
+	#divContents { border: 0px solid red; margin: 0 auto; max-width: 40rem; }
+
+	#navMenu { background-color: #eee; height: 100%; left: 0; margin: 0; overflow: auto;
+		padding: 0 1rem; position: fixed; transition: left 0.5s; top: 0; width: var( --mnu-width ); }
+
+	#expandButton { height: 32px; position: fixed; left: var( --mnu-width ); top: 0px;
+		transition: left 0.5s; width: 32px; z-index: 1; }
+
+	#expandButton.collapsed { left: 0; }
+	#navMenu.collapsed { left: calc( var( --mnu-width ) * -1 ); padding: 0; }
+	#main.collapsed { left: 0; width: 100%; }
+
+</style>
+</head>
+<body>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js" ></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" ></script>
+
+
+<!-- File menu panel -->
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-08/fga-files-github-api/fga-files-github-api.js" ></script>
+<script src = "https://pushme-pullyou.github.io/tootoo14/js-14-08/foh-file-open-hash/foh-files-open-hash.js" ></script>
+
+
+
+	<button id="expandButton" onclick="toggleNavPanel();" >☰</button>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+		<div id="FGAdivMenuRepoFilesFolders" ></div>
+
+		<div id="GATdivGithubAccessToken" ></div>
+
+
+		<hr>
+
+	<center title="hello!" ><a href=javascript:window.scrollTo(0,0); style=text-decoration:none; > ❦ </a></center>
+
+
+	</nav>
+
+	<main id=main >
+
+		<div id="divContents" ></div>
+
+	</main>
+
+
+<script>
+
+const urlSourceCode = "https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio";
+
+init();
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+	FGA.branch = '/master/';
+	FGA.user = 'ladybug-tools';
+	FGA.repo = 'spider-gbxml-viewers-for-openstudio';
+	FGA.pathRepo = '';
+
+	FGA.urlGitHubPage = "https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/";
+	//FGA.urlGitHubPage = "";
+
+
+
+	FGAdivMenuRepoFilesFolders.innerHTML = FGA.getMenuFilesGithubApi();
+
+	FGA.getFiles(); // move to js?
+
+	FOH.urlDefaultFile = "README.md";
+
+	FOH.target = divContents;
+
+	FOH.onHashChange();
+
+	window.addEventListener ( 'hashchange', FOH.onHashChange, false );
+
+}
+
+
+function toggleNavPanel() {// move to COR??
+
+	expandButton.classList.toggle( 'collapsed' );
+	navMenu.classList.toggle( 'collapsed' );
+	main.classList.toggle( 'collapsed' );
+
+}
+
+
+function getTitle() {
+
+	const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-32.png";
+
+	//document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	//const version = document.head.querySelector( "[ name=version ]" ).content;
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 style=opacity:0.5; >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>

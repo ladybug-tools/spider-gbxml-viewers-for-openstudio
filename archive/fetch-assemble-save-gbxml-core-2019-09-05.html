@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Request multiple scripts, assemble them into a working HTML file, display in iframe, save to disk" >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-09-02" >
+<meta name = "version" content = "0.05.0" >
+<title></title>
+<style>
+
+	* { box-sizing: border-box; }
+
+	:root { --mnu-width: 22rem; --screen-width: calc( 100vw ); --headerHeight: 6rem; }
+
+	html { height: 100%; }
+
+	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; padding: 0 0.5rem; }
+
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+	/*
+	main { border: 0px; height: 100%; left: var( --mnu-width ); margin: 0;
+		padding: 0 1rem; position: absolute; width: calc( 100% - var( --mnu-width ) );  }
+
+	#navMenu { background-color: #eee; left: 0; margin: 0; padding: 0 1rem;
+		position: absolute; top: 0; width: var( --mnu-width ); }
+	*/
+
+</style>
+</head>
+<body>
+<script id=cor src="core-gbxml-core.js" ></script>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+		<p>
+			<button id=but onclick=assembleFiles(); >assembleFiles</button>
+		</p>
+
+	</nav>
+
+	<main>
+
+		<div id="divContents" ></div>
+
+		<textarea id=txt style=height:200px;width:100%; ></textarea>
+
+		<iframe id=ifr style=height:500px;width:100%; ></iframe>
+
+		<p>
+
+			<button onclick=requestXmlFile(); >get test file</button>
+
+			<button onclick=saveFile(); >Save File</button>
+
+		</p>
+
+	</main>
+
+
+<script>
+
+filesSource = [
+
+	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/build/three.min.js",
+	"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r94/examples/js/controls/OrbitControls.js",
+
+	//"https://pushme-pullyou.github.io/tootoo14/js-14-07/fob-file-open-basic/fob-file-open-basic.js",
+
+	// "https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-03/js-core-three/thr-threejs.js",
+	// "https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-03/js-core-three/thru-threejs-utilities.js",
+
+	"https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-03/js-core-gbxml/gbx-gbxml-parser.js",
+	//"https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-03/js-core-gbxml/gbxu-gbxml-utilities.js"
+
+];
+
+
+
+let scripts = [];
+
+const urlSourceCode = "https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/sandbox/fetch-assemble-save/";
+const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-64.png";
+
+init();
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+}
+
+
+
+function assembleFiles() {
+
+	filesSource.forEach( ( url, index ) => requestFile( url, index ) );
+
+}
+
+
+function requestFile( url, index ) {
+
+	const xhr = new XMLHttpRequest();
+	xhr.open( 'GET', url, true );
+	xhr.onprogress = ( xhr ) => console.log( '', xhr.loaded );
+	xhr.onload = ( xhr ) => callback( xhr, index );
+	xhr.send( null );
+
+}
+
+
+function callback( xhr, index ) {
+
+	scripts[ index ] = `\n<script>\n${ xhr.target.response }\n\n<\/script>\n`;
+
+	console.log( 'index', index, Object.keys( scripts).length );
+
+	if ( Object.keys( scripts ).length  === filesSource.length ) {
+
+		const text  = sourceTop + scripts.join( "" ) + sourceBottom ;
+		txt.innerText = text;
+		ifr.srcdoc = text;
+
+	}
+
+}
+
+
+
+function requestXmlFile( url ) {
+
+	url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml";
+
+	const xhr = new XMLHttpRequest();
+	xhr.open( 'GET', url, true );
+	xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+	xhr.onprogress = function( xhr ) { console.log( 'bytes loaded:', xhr.loaded  ); }; /// or something
+	xhr.onload = callback;
+	xhr.send( null );
+
+		function callback( xhr ) {
+
+			let response, json, lines;
+
+			response = xhr.target.response;
+			//console.log( 'response', response );
+
+			ifr.contentWindow.GBX.parseFile( response );
+
+		}
+
+}
+
+
+
+function saveFile() {
+
+	let blob = new Blob( [ ifr.srcdoc ] );
+	let a = document.body.appendChild( document.createElement( 'a' ) );
+	a.href = window.URL.createObjectURL( blob );
+	a.download = 'gbxml-core.html';
+	a.click();
+	a = null;
+
+}
+
+
+function getTitle() {
+
+	document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	const version = document.head.querySelector( "[ name=version ]" ).content;
+
+	const htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 style=opacity:0.5; >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>
+

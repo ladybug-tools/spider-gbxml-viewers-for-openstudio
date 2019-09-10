@@ -64,7 +64,7 @@
 
 <script>
 
-const urlSourceCode = "https://github.com/zzzzz/zzzzz.github.io/tree/master/xxxxx/";
+const urlSourceCode = "https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio";
 
 
 init();
@@ -77,7 +77,6 @@ function init() {
 	THR.initializeThreejs();
 
 	THRU.initializeThreejsUtilities();
-
 
 	const geometry = new THREE.BoxGeometry( 50, 50, 50 );
 	const material = new THREE.MeshNormalMaterial();
@@ -117,7 +116,6 @@ function requestXmlFile( url ) {
 
 function setGbXml ( text ) {
 
-	//var _scene;
 	timeStart = Date.now();
 
 	const htm =
@@ -129,8 +127,7 @@ function setGbXml ( text ) {
 
 		const length = GBX.parseFile( text );
 		console.log( 'length', length );
-		//( _scene = scene ).add.apply( _scene, mesh );
-		//THRU.zoomObjectBoundingSphere( GBX.meshGroup );
+
 		divTim.innerHTML = "<p>Success: " + (Date.now() - timeStart) + " ms. " +
 			length + " surfaces</p>";
 		divLog.innerHTML += htm;
