@@ -30,7 +30,7 @@ This file is living proof that the Spider code is viable in workflows based on m
 
 ## [Spider gbXML Viewer test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable-in-iframe-core.html )
 
-![]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/images/2019-09-10S-pider-gbXML-Viewer-for-OpenStudio-v0.06.00-dev )
+![]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/images/2019-09-10-spider-gbXML-Viewer-for-OpenStudio-v0.06.00-dev.png )
 
 * Popup viewer embedded in an Iframe
 * Allows you to test the runnable version of 'embeddable_gbxml_editor.html' outside of OpebStudio
