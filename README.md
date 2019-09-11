@@ -3,20 +3,44 @@
 
 # Spider gbXML Viewers for OpenStudio
 
-Source code and help for Spider gbXML Viewers included with NREL's OpenStudio progam
+Source code and help for Spider gbXML Viewers included with [NREL]( https://www.nrel.gov/ )'s [OpenStudio]( http://nrel.github.io/OpenStudio-user-documentation/tutorials/tutorial_gbxmlimport/ ) program
 
 
 ## [Spider gbXML Viewer for OpenStudio 2.9.0]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable_gbxml_editor.html )
 * embeddable_gbxml_editor.html
 * Nothing happens when you load this file because init() and animate() are disabled so they may first called by the app doing the hosting
 
+### Features
+
+This file is living proof that the Spider code is viable in workflows based on mature and complex systems.
+
+* Load gbXML files in a speedy fashion
+* Display in real-time interactive 3D
+* Click on a surface to view a subset of its data
+* Adjust opacity and reset to home view
+* Toggle
+	* Rotation
+	* Wireframe view
+	* Axes
+	* Bounding box
+	* Edges
+* View file statistics
+* Sliding menu
+
+
 ## [Spider gbXML Viewer test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable-in-iframe-core.html )
 
 * Popup viewer embedded in an Iframe
+* Allows you to test the runnable version of 'embeddable_gbxml_editor.html' outside of OpebStudio
 * Buttons load drawings via iframe.contentWindow.GBX.parseFile( gbxml-text );
 
+## [Fetch Assemble Save]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/fetch-assemble-save/v-0-05-02/fetch-assemble-save-gbxml-core.html )
+
+* The script that gathers the source code files, glues them together and allows you to save the single file to diak
 
 ## OpenStudio Requirements / 2019-09-02
+
+_From email sent by Dan Macumber_
 
 * Our app users may not be online so we need the JavaScript dependencies to be directly copy/pasted into the html rather than loaded online
 * We don’t want example files because that might confuse the users (e.g. wait that’s not my model, what’s happening?)
