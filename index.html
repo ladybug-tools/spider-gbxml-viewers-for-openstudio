@@ -18,11 +18,15 @@
 
 	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; padding: 0 0.5rem; }
 
-	a { color: crimson; text-decoration: none; }
+	a { color: crimson; }
 	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
 
+	blockquote, code { background-color: #ddd; }
+	
 	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
 	button:hover { background: #ccc; color: #fff }
+
+	summary { font-weight: bold; font-size: 1.5rem }
 
 
 	#main { border: 0px; height: 100%; left: var( --mnu-width ); margin: 0;
@@ -32,6 +36,8 @@
 
 	#navMenu { background-color: #eee; height: 100%; left: 0; margin: 0; overflow: auto;
 		padding: 0 1rem; position: fixed; transition: left 0.5s; top: 0; width: var( --mnu-width ); }
+
+	#navMenu a { text-decoration: none; }
 
 	#expandButton { height: 32px; position: fixed; left: var( --mnu-width ); top: 0px;
 		transition: left 0.5s; width: 32px; z-index: 1; }

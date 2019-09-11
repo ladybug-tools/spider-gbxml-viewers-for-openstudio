@@ -5,10 +5,11 @@
 <meta name = "viewport" content= "width=device-width, initial-scale=1" >
 <meta name = "description" content = "Request multiple scripts, assemble them into a working HTML file, display in iframe, save to disk" >
 <meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
-<meta name = "date" content = "2019-09-05" >
-<meta name = "version" content = "0.05.0" >
+<meta name = "date" content = "2019-09-11" >
+<meta name = "version" content = "0.05.02" >
 <title></title>
 <style>
+	/* Copyright 2019 Ladybug Tools authors. MIT License */
 
 	* { box-sizing: border-box; }
 
@@ -24,14 +25,6 @@
 	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
 	button:hover { background: #ccc; color: #fff }
 
-	/*
-	main { border: 0px; height: 100%; left: var( --mnu-width ); margin: 0;
-		padding: 0 1rem; position: absolute; width: calc( 100% - var( --mnu-width ) );  }
-
-	#navMenu { background-color: #eee; left: 0; margin: 0; padding: 0 1rem;
-		position: absolute; top: 0; width: var( --mnu-width ); }
-	*/
-
 </style>
 </head>
 <body>
@@ -44,13 +37,14 @@
 		<div id="divTitle" ></div>
 
 		<p>
-			1. <button id=but onclick=assembleFiles(); >assembleFiles</button>
 
-			2. <button onclick=requestXmlFile(); >Clifton downs</button>
+			1. Fetch & assemble <button id=but onclick=assembleFiles(); >Request files</button>
 
-			<button id=but onclick=requestUrl("https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/omha-nb-zneth.xml"); >Omaha NB</button>
+			2. Test <button onclick="requestXmlFile();" >Clifton Downs</button>
 
-			3. <button onclick=saveFile(); >Save File</button></p>
+			<button onclick="requestXmlFile(urlOmaha);" >Omaha NB</button>
+
+			3. Keep <button onclick="saveFile();" >Save file</button>
 
 		</p>
 
@@ -62,13 +56,11 @@
 
 		<textarea id=txt style=height:120px;width:100%; ></textarea>
 
-		<iframe id=ifr style=height:600px;width:100%; ></iframe>
+		<div style=height:600px;resize:both;overflow:auto;width:100%;>
 
-		<p>
+			<iframe id=ifr style=height:100%;width:100%; ></iframe>
 
-
-
-
+		</div>
 
 	</main>
 
@@ -88,15 +80,20 @@ var filesSource = [
 ];
 
 
-
 var scripts = [];
 
 const urlSourceCode =
 	"https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio";
+
 const urlSourceCodeIcon = "https://pushme-pullyou.github.io/github-mark-32.png";
+
+const urlClifton = "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-down-road.xml";
+
+const urlOmaha = "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/omha-nb-zneth.xml"
 
 
 init();
+
 
 function init() {
 
@@ -116,7 +113,7 @@ function requestFile( url, index ) {
 
 	const xhr = new XMLHttpRequest();
 	xhr.open( 'GET', url, true );
-	xhr.onprogress = ( xhr ) => console.log( 'index', index, xhr.loaded );
+	//xhr.onprogress = ( xhr ) => console.log( 'index', index, xhr.loaded );
 	xhr.onload = ( xhr ) => callback( xhr, index );
 	xhr.send( null );
 
@@ -142,10 +139,7 @@ function callback( xhr, index ) {
 
 function requestXmlFile( url ) {
 
-	//url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml";
-
-	url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-down-road.xml";
-
+	url = url || urlClifton;
 
 	const xhr = new XMLHttpRequest();
 	xhr.open( 'GET', url, true );
@@ -191,7 +185,7 @@ function getTitle() {
 			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
 				<img src=${ urlSourceCodeIcon } height=18 style=opacity:0.5; >
 			</a>
-			<a href="" title="Click to reload this page" >${ document.title }</a>
+			<a href="" title="Click to reload this page" >${ document.title } ${ version }</a>
 		</h2>
 
 		<p>
@@ -206,4 +200,3 @@ function getTitle() {
 </script>
 </body>
 </html>
-

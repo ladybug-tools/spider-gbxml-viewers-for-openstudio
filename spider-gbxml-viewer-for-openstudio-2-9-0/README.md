@@ -1,14 +1,14 @@
-# Spider gbXML Viewer Core for OpenStudio 2.9.0
+# Spider gbXML Viewer Core for OpenStudio v0.06.00
 
+Tips for this build.
 
-
-## Chromium builds
+## Got old Chromium builds
 
 For older versions of Chromium
 
 * https://sourceforge.net/projects/crportable/files/
 
-See also file in assets folder
+See also ChromiumPortable_45.0.2453.0.paf.exe.txt file in assets folder. Drop the '.txt' at the end of the file name.
 
 
 ## Using Chromium ~r45
@@ -20,4 +20,3 @@ See also file in assets folder
 ***
 
 # <center title="hello!" ><a href=javascript:window.scrollTo(0,0); style=text-decoration:none; > ❦ </a></center>
-
