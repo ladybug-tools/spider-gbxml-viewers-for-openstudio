@@ -1,4 +1,4 @@
-/* globals THREE, THR, THRU, FOB, GBXU */
+/* globals THREE, THR, THRU, divMsg */
 // jshint esversion: 6
 // jshint loopfunc: true
 
@@ -57,10 +57,6 @@ GBX.parseFile = function( gbxml )  {
 
 	THRU.setSceneDispose();
 
-	// GBX.openingGroup = [];
-	// GBX.boundingBox = undefined;
-	// GBX.placards = new THREE.Group();
-
 	GBX.text = gbxml.replace( /\r\n|\n/g, '' );
 	//console.log( 'GBX.text', GBX.text );
 
@@ -104,7 +100,7 @@ GBX.parseFile = function( gbxml )  {
 GBX.getSurfaceMeshes = function( surfaces ) {
 	// console.log( 'surfaces', surfaces );
 
-	var timeStart = performance.now();
+	//var timeStart = performance.now();
 
 	GBX.materialType = THREE.MeshPhongMaterial;
 	//GBX.materialType = THREE.MeshBasicMaterial;
@@ -224,7 +220,7 @@ GBX.getSurfaceMesh = function( arr, index, holes ) {
 
 		pointsHoles = [];
 
-		for ( var i = 0; i < holes.length; i ++ ) {
+		for ( i = 0; i < holes.length; i ++ ) {
 
 			var hole = holes[ i ];
 			var points2 = [];

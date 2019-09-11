@@ -1,8 +1,7 @@
-/* global THREE, THR, Stats, rngOpacity, outOpacity */
+/* global THREE, THR, GBX, divLog, Stats, rngOpacity, outOpacity */
 // jshint esversion: 6
 // jshint loopfunc: true
 
-"use strict";
 
 var THRU = {
 
@@ -155,7 +154,7 @@ THRU.zoomObjectBoundingSphere = function( obj ) {
 };
 
 
-////////// Visibility
+////////// Visibility - not used 
 
 THRU.getMeshesVisible = function ( objThree ) { // not??
 	//console.log( '', objThree );
@@ -164,7 +163,7 @@ THRU.getMeshesVisible = function ( objThree ) { // not??
 
 	THRU.meshGroupVisible = new THREE.Object3D();
 
-	var arr = objThree.children.filter( mesh => mesh.visible ).map ( mesh => mesh.clone() );
+	//var arr = objThree.children.filter( mesh => mesh.visible ).map ( mesh => mesh.clone() );
 	//THRU.meshGroupVisible.add( ...arr );
 
 	//console.log( 'THRU.meshGroupVisible', THRU.meshGroupVisible );
@@ -190,6 +189,8 @@ THRU.toggleMeshesVisible = function( obj) {
 
 };
 
+
+////////// helpers
 
 THRU.toggleWireframe = function( obj ) {
 
@@ -246,7 +247,7 @@ THRU.toggleSurfaceNormalsVisible = function() {
 					mesh.rotation.copy( child.rotation );
 					mesh.position.copy( child.position );
 
-					var helperNormalsFace = new THREE.FaceNormalsHelper( mesh, 0.05 * THRU.radius, 0xff00ff );
+					helperNormalsFace = new THREE.FaceNormalsHelper( mesh, 0.05 * THRU.radius, 0xff00ff );
 					helperNormalsFace.userData.index = child.userData.index;
 
 					THRU.helperNormalsFaces.add( helperNormalsFace );

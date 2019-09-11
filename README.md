@@ -36,7 +36,7 @@ This file is living proof that the Spider code is viable in workflows based on m
 
 In order to test "embeddable_gbxml_editor.html" files with OpenStudio, copy a file into the ```bin``` folder of your OpenStudio installation. Start a new session and the file will appear the next time you invoke the gbXML Viewer from the geometry tab.
 
-See the OpenStudio Advanced Tutorial [Working with gbXML]( http://nrel.github.io/OpenStudio-user-documentation/tutorials/tutorial_gbxmlimport/ )for more details.
+See the OpenStudio Advanced Tutorial [Working with gbXML]( http://nrel.github.io/OpenStudio-user-documentation/tutorials/tutorial_gbxmlimport/ ) for more details.
 
 
 ## [Spider gbXML Viewer test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable-in-iframe-core.html )

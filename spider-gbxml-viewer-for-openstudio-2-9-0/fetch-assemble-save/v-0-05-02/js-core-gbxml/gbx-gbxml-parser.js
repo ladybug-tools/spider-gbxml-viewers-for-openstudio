@@ -2,8 +2,6 @@
 // jshint esversion: 6
 // jshint loopfunc: true
 
-"use strict";
-
 var GBX = {
 	script: {
 
@@ -153,13 +151,13 @@ GBX.getSpacesJson = function() {
 
 		const spaceIndex = index;
 
-		let zoneId = space.match( / zoneIdRef="(.*?)"/i )
+		let zoneId = space.match( / zoneIdRef="(.*?)"/i );
 
 		zoneId = zoneId ? zoneId[ 1 ] : "";
 
 		const zoneIndex = GBX.zones.findIndex( zone => zone.includes( zoneId ) );
 
-		let storeyId = space.match( / buildingStoreyIdRef="(.*?)"/i )
+		let storeyId = space.match( / buildingStoreyIdRef="(.*?)"/i );
 
 		storeyId = storeyId ? storeyId[ 1 ] : "";
 
@@ -195,7 +193,7 @@ GBX.getStoreysJson = function() {
 
 		const index = GBX.storeys.indexOf( storey );
 
-		return { id, count, index, level, name }
+		return { id, count, index, level, name };
 
 	} );
 
@@ -208,7 +206,7 @@ GBX.getStoreysJson = function() {
 GBX.getSurfaceMeshes = function( surfaces ) {
 	// console.log( 'surfaces', surfaces );
 
-	const timeStart = performance.now();
+	//const timeStart = performance.now();
 
 	GBX.materialType = THR.scene.getObjectByName( 'lightAmbient') ? THREE.MeshPhongMaterial : THREE.MeshBasicMaterial;
 	//GBX.materialType = THREE.MeshBasicMaterial;
