@@ -3,7 +3,9 @@
 
 # Spider gbXML Viewers for OpenStudio
 
-Source code and help for Spider gbXML Viewers included with [NREL]( https://www.nrel.gov/ )'s [OpenStudio]( http://nrel.github.io/OpenStudio-user-documentation/tutorials/tutorial_gbxmlimport/ ) program
+Source code and help for Spider gbXML Viewers included with [NREL]( https://www.nrel.gov/ )'s [OpenStudio]( http://nrel.github.io/OpenStudio-user-documentation/tutorials/tutorial_gbxmlimport/ ) program.
+
+_The following files are a work-in-progress and not yet available in a working version of OpenStudio._
 
 
 ## [Spider gbXML Viewer for OpenStudio 2.9.0]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable_gbxml_editor.html )
