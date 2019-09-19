@@ -57,6 +57,7 @@ THRU.setSceneDispose = function() {
 
 	THRU.axesHelper = undefined;
 	THRU.boundingBoxHelper = undefined;
+	THRU.helperNormalsFaces = undefined;
 	THRU.groundHelper = undefined;
 
 	THR.scene.traverse( child => {
