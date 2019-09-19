@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang = "en" >
+<head>
+<meta charset = "utf-8" >
+<meta name = "viewport" content= "width=device-width, initial-scale=1" >
+<meta name = "description" content = "Open 'threejs-gbxml-core.html' (runnable 'embeddable_gbxml_editor.html') in an Iframe. Useful for testing." >
+<meta name = "keywords" content = "JavaScript,GitHub,FOSS" >
+<meta name = "date" content = "2019-09-19" >
+<meta name = "version" content = "0.06.01-eiigc" >
+<title>Embeddable in Iframe gbXML Core</title>
+<style>
+
+	* { box-sizing: border-box; }
+
+	:root { --mnu-width: 22rem; --screen-width: calc( 100vw ); --headerHeight: 6rem; }
+
+	html { height: 100%; }
+
+	body { font: 12pt monospace; margin: 0 auto; max-width: 800px; padding: 0 0.5rem; }
+
+	a { color: crimson; text-decoration: none; }
+	a:hover, a:focus, a:active { background-color: yellow; color: #aaa; text-decoration: underline }
+
+	button, input[type=button] { background-color: #ddd; border: none; color: #322; cursor: pointer; padding: 3px 5px; }
+	button:hover { background: #ccc; color: #fff }
+
+</style>
+</head>
+<body>
+
+	<nav id="navMenu" >
+
+		<div id="divTitle" ></div>
+
+		<p>
+			<button id=but onclick=requestUrl(); >Open Clifton Downs</button>
+
+			<button id=but onclick=requestUrl("https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/omha-nb-zneth.xml"); >Open Omaha NB</button>
+		</p>
+
+	</nav>
+
+	<main>
+
+		<div id="divContents" ></div>
+
+		<div style=height:600px;resize:both;overflow:hidden;width:100%;>
+
+			<iframe id=ifr src= threejs-gbxml-core.html style=height:100%;width:100%; ></iframe>
+
+		</div>
+
+
+	</main>
+
+
+<script>
+
+var urlRepo =
+	"https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio/tree/master/";
+var urlSourceCode =
+	urlRepo + "spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00";
+var urlSourceCodeIcon =
+	"https://pushme-pullyou.github.io/github-mark-32.png";
+
+init();
+
+function init() {
+
+	divTitle.innerHTML = getTitle();
+
+}
+
+
+function requestUrl( url ) {
+
+	url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml"
+
+	fetch( url )
+	.then( response => response.text() )
+	.then( text => ifr.contentWindow.setGbXml( text ) )
+	.catch( error => console.log( 'error:', error  ) );
+
+}
+
+
+function getTitle() {
+
+	document.title = document.title ? document.title : location.href.split( '/' ).pop().slice( 0, - 5 ).replace( /-/g, ' ' );
+	var version = document.head.querySelector( "[ name=version ]" ).content;
+
+	var htm =
+	`
+		<h2>
+			<a href=${ urlSourceCode } target=_top title="Source code on GitHub" >
+				<img src=${ urlSourceCodeIcon } height=18 style=opacity:0.5; >
+			</a>
+			<a href="" title="Click to reload this page" >${ document.title } ${ version }</a>
+		</h2>
+
+		<p>
+			${ document.head.querySelector( "[ name=description ]" ).content }
+		</p>
+	`;
+
+	return htm;
+
+}
+
+</script>
+</body>
+</html>

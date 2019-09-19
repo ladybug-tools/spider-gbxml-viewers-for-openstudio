@@ -1,15 +1,17 @@
-<!doctype html>
+
+const sourceTop =
+
+`<!doctype html>
 <html lang="en" >
 <head>
 <meta charset="utf-8" >
-<meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
-<meta name=description content="Real-time interactive 3D graphics in your browser using the WebGL and the Three.js JavaScript library" >
+<meta name="viewport" content = "width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" >
+<meta name=description content="Open, view gbXML files in 3D in your browser with free, open source entry-level Three.js JavaScript" >
 <meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM" >
-<meta name = "date" content = "2019-09-09" >
-<title>Spider gbXML Viewer fo OpenStudio v0.06.00 Dev</title>
-
+<meta name = "date" content = "2019-09-19" >
+<title>gbXML Viewer basic v0.06.01</title>
 <style>
-	/* Copyright 2019 Ladybug Tools authors. MIT License */
+
 
 	* { box-sizing: border-box; }
 
@@ -32,24 +34,31 @@
 		transition: left 0.5s; width: 32px; z-index: 1; }
 
 	#expandButton.collapsed { left: 0; }
-	#navMenu.collapsed { left: -17em; padding: 0; }
+	#navMenu.collapsed { left: -17em; padding: 0; }rgin: 0 20px; max-width: 20rem; position: absolute; }
 
 </style>
 </head>
 <body>
-<script src = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/build/three.min.js" ></script>
-<script src = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/examples/js/controls/OrbitControls.js" ></script>
+<script>
+// https://cdn.rawgit.com/mrdoob/three.js/r108/build/three.min.js
 
-<script src = "js-core-three/thr-threejs-os.js" ></script>
-<script src = "js-core-three/thru-threejs-utilities-os.js" ></script>
-<script src = "js-core-gbxml/gbx-gbxml-parser-os.js" ></script>
-<script src = "js-core-three/thc-three-click-os.js" ></script>
+`;
+
+
+
+
+const sourceBottom =
+
+`
+</script>
+
 
 	<button id="expandButton" onclick="toggleNavPanel();" >☰</button>
 
 	<nav id = "navMenu" >
 
-		<div id = "divTitle" >Ladybug Tools / Spider gbXML Viewer for OpenStudio v0.06.00 dev</div>
+		<div id = "divTitle" >Ladybug Tools / Spider gbXML Viewer for OpenStudio v0.06.01 dev</div>
+
 		<p title="opacity: 0 to 100%" >
 			opacity <output id=outOpacity class=floatRight >85%</output><br>
 			<input type="range" id="rngOpacity" min=0 max=100 step=1 value=85 oninput=THRU.setObjectOpacity(); >
@@ -90,19 +99,18 @@
 
 	</nav>
 
-</div>
+	</div>
 
-<div id = "divMsg" style="border:0px solid red;position:absolute;max-height:90%;right:0;top:0;max-width:50%;
-	margin: 1 rem;overflow:auto;padding: 1rem;" ></div>
+	<div id = "divMsg" style="border:0px solid red;position:absolute;max-height:90%;right:0;top:0;max-width:50%;
+		margin: 1 rem;overflow:auto;padding: 1rem;" ></div>
 
 
 <script>
 
-const urlSourceCode = "https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio";
-
 
 init();
 animate();
+
 
 function init() {
 
@@ -111,7 +119,6 @@ function init() {
 	THRU.initializeThreejsUtilities();
 
 	window.addEventListener( 'click', THC.onClick, false );
-
 }
 
 
@@ -125,12 +132,24 @@ function setGbXml ( text ) {
 
 	try {
 
-		const length = GBX.parseFile( text ) || 0;
-		console.log( 'length', length );
+		const length = GBX.parseFile( text );
 
-		divTim.innerHTML = "<p>Success: " + (Date.now() - timeStart) + " ms. " +
-			length + " surfaces</p>";
-		divLog.innerHTML = htm;
+		if ( length ) {
+
+			divTim.innerHTML =
+			"<p>" +
+				"Success: " + ( Date.now() - timeStart ) + " ms - " + length + " surfaces" +
+			"</p>";
+
+			divLog.innerHTML = htm;
+
+		} else {
+
+			divTim.innerHTML =
+			"<p>This may not be a gbXML file. Here are the first 200 characters:</p>" +
+			"<p>" + text.slice( 0, 200 ) + "</p>";
+
+		}
 
 	} catch( err ) {
 
@@ -159,3 +178,5 @@ function animate() {
 </script>
 </body>
 </html>
+
+`;

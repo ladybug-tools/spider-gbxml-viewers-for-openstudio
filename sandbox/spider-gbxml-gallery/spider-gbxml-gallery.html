@@ -136,7 +136,7 @@
 	<main>
 
 		<div id="divContents" style=height:800px;overflow:hidden;resize:both;width:100%;>
-			<iframe id=ifr src="../../spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/threejs-gbxml-core.html" style=height:100%;width:100%;></iframe>
+			<iframe id=ifr src="../../spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-01/threejs-gbxml-core.html" style=height:100%;width:100%;></iframe>
 		</div>
 
 	</main>
@@ -317,10 +317,18 @@
 
 			url = url || "https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/gbxml-sample-files/bristol-clifton-downs-fixed.xml"
 
-			fetch( url )
-				.then( response => response.text() )
-				.then( text => ifr.contentWindow.setGbXml( text ) )
-				.catch( error => console.log( 'error:', error ) );
+			// fetch( url )
+			// 	.then( response => response.text() )
+			// 	.then( text => ifr.contentWindow.setGbXml( text ) )
+			// 	.catch( error => console.log( 'error:', error ) );
+
+			xhr = new XMLHttpRequest();
+			xhr.open( 'GET', url, true );
+			xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
+			xhr.onprogress = function( xhr ) { };
+			xhr.onload = function( xhr ) { ifr.contentWindow.setGbXml( xhr.target.response ) };
+			xhr.send( null );
+			
 		}
 	</script>
 </body>
