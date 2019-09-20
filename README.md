@@ -41,7 +41,7 @@ In order to test "embeddable_gbxml_editor.html" files with OpenStudio, copy a fi
 See the OpenStudio Advanced Tutorial [Working with gbXML]( http://nrel.github.io/OpenStudio-user-documentation/tutorials/tutorial_gbxmlimport/ ) for more details.
 
 
-## [Spider gbXML Viewer test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-00/embeddable-in-iframe-core.html )
+## [Spider gbXML Viewer test page]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-01/embeddable-in-iframe-core.html )
 
 
 <img src="https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/images/2019-09-10-Spider-gbXML-Viewer-for-OpenStudio-v0.06.00-dev.png" style=width:100%; >
@@ -52,7 +52,7 @@ See the OpenStudio Advanced Tutorial [Working with gbXML]( http://nrel.github.io
 
 ## [Fetch Assemble Save]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/fetch-assemble-save/v-0-05-02/fetch-assemble-save-gbxml-core.html )
 
-* The script that gathers the source code files, glues them together and allows you to save the single file to diak
+* The script that gathers the source code files, glues them together and allows you to save the single file to disk
 
 ## OpenStudio Requirements / 2019-09-02
 

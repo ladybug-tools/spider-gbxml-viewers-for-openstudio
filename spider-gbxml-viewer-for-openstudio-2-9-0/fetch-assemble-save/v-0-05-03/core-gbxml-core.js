@@ -126,13 +126,13 @@ function setGbXml ( text ) {
 
 	var timeStart = Date.now();
 
-	const htm =
+	var htm =
 		"<p>Please visit Ladybug Tools at https://www.ladybug.tools/spider-gbxml-tools " +
 		"to edit and inspect your files in more detail.<p>";
 
 	try {
 
-		const length = GBX.parseFile( text );
+		var length = GBX.parseFile( text );
 
 		if ( length ) {
 

@@ -33,7 +33,7 @@ THC.onClick = function( event ) {
 
 		spaceIds = spaceIds ? spaceIds.map( space => space.slice( 13, -1)) : "none";
 
-		let name = surface.match( /<Name>(.*?)<\/Name>/i );
+		var name = surface.match( /<Name>(.*?)<\/Name>/i );
 		name = name ? name : "no  name";
 
 		var htm =

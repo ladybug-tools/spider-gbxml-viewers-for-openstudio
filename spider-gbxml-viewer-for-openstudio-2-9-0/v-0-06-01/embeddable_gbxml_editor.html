@@ -2325,6 +2325,7 @@ THRU.setSceneDispose = function() {
 
 	THRU.axesHelper = undefined;
 	THRU.boundingBoxHelper = undefined;
+	THRU.helperNormalsFaces = undefined;
 	THRU.groundHelper = undefined;
 
 	THR.scene.traverse( child => {
@@ -2742,7 +2743,7 @@ THC.onClick = function( event ) {
 
 		spaceIds = spaceIds ? spaceIds.map( space => space.slice( 13, -1)) : "none";
 
-		let name = surface.match( /<Name>(.*?)<\/Name>/i );
+		var name = surface.match( /<Name>(.*?)<\/Name>/i );
 		name = name ? name : "no  name";
 
 		var htm =
@@ -3209,13 +3210,13 @@ function setGbXml ( text ) {
 
 	var timeStart = Date.now();
 
-	const htm =
+	var htm =
 		"<p>Please visit Ladybug Tools at https://www.ladybug.tools/spider-gbxml-tools " +
 		"to edit and inspect your files in more detail.<p>";
 
 	try {
 
-		const length = GBX.parseFile( text );
+		var length = GBX.parseFile( text );
 
 		if ( length ) {
 
