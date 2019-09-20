@@ -40,7 +40,7 @@ In order to test "embeddable_gbxml_editor.html" files with OpenStudio, copy a fi
 
 See the OpenStudio Advanced Tutorial [Working with gbXML]( http://nrel.github.io/OpenStudio-user-documentation/tutorials/tutorial_gbxmlimport/ ) for more details.
 
-## [Spider gbXML Gallery for OpenStdio ]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/sandbox/spider-gbxml-gallery/spider-gbxml-gallery.htm )
+## [Spider gbXML Gallery for OpenStudio ]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/sandbox/spider-gbxml-gallery/spider-gbxml-gallery.html )
 
 * Lots of fun here
 
