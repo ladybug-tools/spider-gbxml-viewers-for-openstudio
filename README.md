@@ -66,6 +66,10 @@ _From email sent by Dan Macumber_
 * We don’t yet support a workflow where the user could fix the file in the app so we would want to hide the fixer menus
 * We need some type of method (e.g. setGbXml) that I can call from the app to pass in our gbXML file as a string
 
+ This is where the application currently initializes the gbXML viewer and passes in the file as a string to the setGbXml method.  I am happy to change that method name if needed, for your testing with the current version of the app it is expecting the method setGbXml.
+
+
+* https://github.com/NREL/OpenStudio/blob/develop/openstudiocore/src/openstudio_lib/GeometryEditorView.cpp#L611
 
 <details>
 
@@ -128,6 +132,21 @@ NREL include a very basic version of the Spider gbXML Viewer in current releases
 <img src="https://www.ladybug.tools/spider-gbxml-tools/images/openstudio-imported-gbxml.jpg" width=800 >
 
 _Screen capture NREL tutorial on Spider gbXML Viewer running in OpenStudio 2.8.0_
+
+
+### Get old Chromium builds
+
+For older versions of Chromium
+
+* https://sourceforge.net/projects/crportable/files/
+
+See also ChromiumPortable_45.0.2453.0.paf.exe.txt file in assets folder. Drop the '.txt' at the end of the file name.
+
+
+#### Using Chromium ~r45
+
+* Do not use let or const
+* Do not use default function parameters
 
 </details>
 
