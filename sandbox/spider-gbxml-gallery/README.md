@@ -17,7 +17,7 @@ I started by manually adding buttons with links for test here in the 'uncompiled
 
 * [Embeddable in Iframe gbXML Core Dev 0.05.03-0eiic]( https://www.ladybug.tools/spider-gbxml-viewers-for-openstudio/spider-gbxml-viewer-for-openstudio-2-9-0/fetch-assemble-save/v-0-05-03/embeddable-in-iframe-core-dev.html )
 
-But then realized I would also have to manually add buttons with links to the 'compiled' version. And I also wanted to test the viewers on all th files currently available.
+But then realized I would also have to manually add buttons with links to the 'compiled' version. And I also wanted to test the viewers on all the files currently available.
 
 And that is how this was born:
 
@@ -25,7 +25,7 @@ And that is how this was born:
 
 ### Features
 
-* Automagically find all the repositories (up to 100) belonging to a GitHub user or organization
+* Auto-magically find all the repositories (up to 100) belonging to a GitHub user or organization
 * Three organizations are pre-selected
 	* NREL
 	* Ladybug Tools
@@ -39,7 +39,9 @@ And that is how this was born:
 		2. Click the name to view the file in 3D
 			* Note: Tooltips provide file size.
 		3. Click the ❐ icon to open the file in Spider gbXML Viewer "Maevia"
+* All 'heavy' work in is carried out by the GitHub Developer API
 
+If you run the script many times you may run into GitHHub API rate limits. Let us know and we will add the needed fixes.
 
 ### Benefits
 
@@ -70,6 +72,10 @@ And that is how this was born:
 <details>
 
 <summary>Change Log</summary>
+
+### 2019-09-23 ~ Theo
+
+* F: Add links after each file to Fixer 'Atrax'
 
 ### 2019-09-21 ~ Theo
 

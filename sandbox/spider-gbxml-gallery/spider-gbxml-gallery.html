@@ -4,7 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="From an organization on GitHub, from all the repos and files, select a gbXML file and display">
+	<meta name="description"
+		content="From an organization on GitHub, from all the repos and files, select a gbXML file and display">
 	<meta name="keywords" content="OpenStudio,gbXMLJavaScript,GitHub,FOSS">
 	<meta name="date" content="2019-09-19">
 	<meta name="version" content="0.01.0">
@@ -35,25 +36,32 @@
 			color: white;
 			text-decoration: none;
 		}
-		a:hover, a:focus, a:active {
+
+		a:hover,
+		a:focus,
+		a:active {
 			background-color: yellow;
 			color: #aaa;
 			text-decoration: underline
 		}
 
-		button, input[type=button] {
+		button,
+		input[type=button] {
 			background-color: #ddd;
 			border: none;
 			color: #322;
 			cursor: pointer;
 			padding: 3px 5px;
 		}
+
 		button:hover {
 			background: #ccc;
 			color: #fff
 		}
 
-		details { margin-top: 1rem; }
+		details {
+			margin-top: 1rem;
+		}
 
 		main {
 			border: 0px;
@@ -65,7 +73,10 @@
 			width: calc(100% - var(--mnu-width));
 		}
 
-		summary { font-weight: bold; }
+		summary {
+			font-weight: bold;
+		}
+
 		#navMenu {
 			background-color: #4a9d36;
 			color: #fff;
@@ -78,6 +89,7 @@
 			top: 0;
 			width: var(--mnu-width);
 		}
+
 	</style>
 </head>
 
@@ -90,7 +102,8 @@
 	<nav id="navMenu">
 
 		<h2>
-			<a href="https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio/tree/master/sandbox/spider-gbxml-gallery" ; target=_top title="Source code on GitHub">
+			<a href="https://github.com/ladybug-tools/spider-gbxml-viewers-for-openstudio/tree/master/sandbox/spider-gbxml-gallery"
+				; target=_top title="Source code on GitHub">
 				<img src=https://pushme-pullyou.github.io/github-mark-32.png style=opacity:1;>
 			</a>
 			<br>
@@ -136,7 +149,8 @@
 	<main>
 
 		<div id="divContents" style=height:800px;overflow:hidden;resize:both;width:100%;>
-			<iframe id=ifr src="../../spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-01/threejs-gbxml-core.html" style=height:100%;width:100%;></iframe>
+			<iframe id=ifr src="../../spider-gbxml-viewer-for-openstudio-2-9-0/v-0-06-01/threejs-gbxml-core.html"
+				style=height:100%;width:100%;></iframe>
 		</div>
 
 	</main>
@@ -206,8 +220,8 @@
 			const htm = items.map( item =>
 				`
 				<div style=margin-top:0.5rem; >
-					<a href=JavaScript:fetchFiles("${ item.name }"); >
-						📁 ${ item.name }
+					<a href=JavaScript:fetchFiles("${ item.name}"); >
+						📁 ${ item.name}
 					</a>
 				</div>
 			`
@@ -222,7 +236,7 @@
 
 			repo = rep
 
-			const urlGitHubAPITree = `https://api.github.com/repos/${ user }/${ repo }/git/trees/master?recursive=1`;
+			const urlGitHubAPITree = `https://api.github.com/repos/${user}/${repo}/git/trees/master?recursive=1`;
 
 			const request = new Request( urlGitHubAPITree );
 
@@ -235,15 +249,15 @@
 
 		function callbackGitHubApiTree( results ) {
 
-			const urlGitHubSource = `https://github.com/${ user }/${ repo }/blob/master/`;
-			const urlGitHubPage = `https://cdn.jsdelivr.net/gh/${ user }/${ repo }@master/`;
+			const urlGitHubSource = `https://github.com/${user}/${repo}/blob/master/`;
+			const urlGitHubPage = `https://cdn.jsdelivr.net/gh/${user}/${repo}@master/`;
 
 			//const urlGitHubPage = `https://greenbuildingxml.github.io/${ repo }/`;
 			const iconGitHubMark = '<img src="https://cdn.jsdelivr.net/gh/ladybug-tools/spider@master/images/github-mark.png" height=14 style=vertical-align:middle>';
 
 			files = results.tree.filter( file => file.path.endsWith( ".xml" ) );
 
-			files.sort( function( a, b ) {
+			files.sort( function ( a, b ) {
 
 				let nameA = a.path.toUpperCase();
 				let nameB = b.path.toUpperCase();
@@ -273,7 +287,7 @@
 				if ( folders.indexOf( folder ) === -1 ) {
 
 					folders.push( folder );
-					txt += `<h4 style="color:#444;margin:1rem 0 0 0;"" >folder: ${ folder || "root" }</h4>`;
+					txt += `<h4 style="color:#444;margin:1rem 0 0 0;"" >folder: ${folder || "root"}</h4>`;
 
 				}
 
@@ -281,11 +295,13 @@
 
 					`<div style="margin:0;" >
 
-						<a href=${ urlGitHubSource + encodeURI( file.path )  } title="Edit me" >${ iconGitHubMark }</a>
+						<a href=${ urlGitHubSource + encodeURI( file.path )} title="Edit me" >${iconGitHubMark}</a>
 
-						<a href=#${ urlGitHubPage + encodeURI( file.path ) } onclick=setDivLog(this); title="${ file.size } bytes" >${ fileName}</a>
+						<a href=#${ urlGitHubPage + encodeURI( file.path )} onclick=setDivLog(this); title="${file.size} bytes" >${fileName}</a>
 
-						<a href=https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/#${ urlGitHubPage +  encodeURI( file.path )  } title="Link to just this file" >&#x2750;</a>
+						<a href=https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/#${ urlGitHubPage + encodeURI( file.path )} title="Link to just this file" >&#x2750; viewer</a>
+
+						<a href=https://www.ladybug.tools/spider-gbxml-fixer//#${ urlGitHubPage + encodeURI( file.path )} title="Link to just this file" >&#x2750; fixer</a>
 
 					</div>`;
 
@@ -295,9 +311,9 @@
 
 			divFoldersFiles.innerHTML =
 				`
-				<h3>${ repo }</h3>
-				<p>files: ${ files.length } </p>
-				${ htm }
+				<h3>${ repo}</h3>
+				<p>files: ${ files.length} </p>
+				${ htm}
 				<hr>
 			`;
 
@@ -324,9 +340,9 @@
 
 			xhr = new XMLHttpRequest();
 			xhr.open( 'GET', url, true );
-			xhr.onerror = function( xhr ) { console.log( 'error:', xhr  ); };
-			xhr.onprogress = function( xhr ) { };
-			xhr.onload = function( xhr ) { ifr.contentWindow.setGbXml( xhr.target.response ) };
+			xhr.onerror = function ( xhr ) { console.log( 'error:', xhr ); };
+			xhr.onprogress = function ( xhr ) { };
+			xhr.onload = function ( xhr ) { ifr.contentWindow.setGbXml( xhr.target.response ) };
 			xhr.send( null );
 
 		}
