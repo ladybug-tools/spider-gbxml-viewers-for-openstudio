@@ -3431,7 +3431,7 @@ THRU.setStats = function() {
 
 	};
 
-	script.src = 'https://rawgit.com/mrdoob/stats.js/master/build/stats.min.js';
+	script.src = 'https://cdn.jsdelivr.net/gh/mrdoob/stats.js@master/build/stats.min.js';
 
 	document.head.appendChild( script );
 
@@ -4344,7 +4344,7 @@ GBX.meshAddGbJson = function ( surface, mesh ) {
 	const surfaceId = surface.match( / id="(.*?)"/i )[ 1 ];
 	mesh.userData.surfaceId = surfaceId;
 
-	
+
 	const azimuth = surface.match( /<Azimuth>(.*?)<\/Azimuth>/i );
 	mesh.userData.azimuth = azimuth ? azimuth[ 1 ] : "";
 
@@ -6241,7 +6241,7 @@ PFO.onClickZoomAll = function() {
 PFO.setAllTypesVisible = function(){
 
 	selStorey.selectedIndex= -1;
-	
+
 	const buttons = divDragMoveContent.querySelectorAll( `button` );
 
 	Array.from( buttons ).forEach( button => {
@@ -6981,7 +6981,7 @@ function init() {
 	FOB.fileInfo = "<br>tbd";
 
 	POP.popup = "";
-	
+
 	POP.footer =
 	"<div><span id=POPspanInfo ></div>";
 

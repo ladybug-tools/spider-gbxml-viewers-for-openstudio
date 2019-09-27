@@ -9,11 +9,11 @@ THRU.radius = 100;
 
 
 
-THRU.getSettings = function() {
+THRU.getSettings = function () {
 
 
 	let htm =
-	`
+		`
 		<p>
 			<button onclick="THR.controls.autoRotate = !THR.controls.autoRotate;" >toggle rotation</button>
 
@@ -51,12 +51,12 @@ THRU.getSettings = function() {
 
 
 
-THRU.setHelpers = function() {
+THRU.setHelpers = function () {
 
 	THRU.toggleAxesHelper();
 
 	window.addEventListener( 'keyup', () => THRU.sceneRotation = 0, false );
-	THR.renderer.domElement.addEventListener( 'click', () => THR.controls.autoRotate=false, false );
+	THR.renderer.domElement.addEventListener( 'click', () => THR.controls.autoRotate = false, false );
 
 	THR.controls.autoRotate = true;
 
@@ -64,7 +64,7 @@ THRU.setHelpers = function() {
 
 
 
-THRU.getGeometry = function() {
+THRU.getGeometry = function () {
 
 	// useful debug snippet
 	const geometry = new THREE.BoxGeometry( 50, 50, 50 );
@@ -83,7 +83,7 @@ THRU.getGeometry = function() {
 
 
 
-THRU.toggleAxesHelper = function() {
+THRU.toggleAxesHelper = function () {
 
 	if ( !THRU.axesHelper ) {
 
@@ -91,7 +91,7 @@ THRU.toggleAxesHelper = function() {
 		THR.scene.add( THRU.axesHelper );
 		return;
 
-	 }
+	}
 
 	THRU.axesHelper.visible = !THRU.axesHelper.visible;
 
@@ -102,7 +102,7 @@ THRU.toggleAxesHelper = function() {
 
 
 
-THRU.toggleSurfaces = function() {
+THRU.toggleSurfaces = function () {
 
 	THR.scene.traverse( function ( child ) {
 
@@ -119,7 +119,7 @@ THRU.toggleSurfaces = function() {
 
 
 
-THRU.toggleEdges = function() {
+THRU.toggleEdges = function () {
 
 	THR.scene.traverse( function ( child ) {
 
@@ -135,7 +135,7 @@ THRU.toggleEdges = function() {
 
 
 
-THRU.toggleWireframe = function() {
+THRU.toggleWireframe = function () {
 
 	THR.scene.traverse( function ( child ) {
 
@@ -151,7 +151,7 @@ THRU.toggleWireframe = function() {
 
 
 
-THRU.toggleSurfaceNormals = function() {
+THRU.toggleSurfaceNormals = function () {
 
 	let material = new THREE.MeshNormalMaterial();
 
@@ -211,7 +211,7 @@ THRU.toggleSurfaceNormals = function() {
 
 
 
-THRU.updateOpacity = function() {
+THRU.updateOpacity = function () {
 
 	const opacity = parseInt( rngOpacity.value, 10 );
 	outOpacity.value = opacity + '%';
@@ -230,7 +230,7 @@ THRU.updateOpacity = function() {
 
 
 
-THRU.zoomObjectBoundingSphere = function( obj = undefined ) {
+THRU.zoomObjectBoundingSphere = function ( obj = undefined ) {
 	//console.log( 'obj', obj );
 
 	const bbox = new THREE.Box3().setFromObject( obj );
@@ -276,11 +276,11 @@ THRU.zoomObjectBoundingSphere = function( obj = undefined ) {
 
 
 
-THRU.onThreejsSceneLoaded = function() { return THR.scene; };
+THRU.onThreejsSceneLoaded = function () { return THR.scene; };
 
 
 
-THRU.setSceneDispose = function( obj = THR.scene.children ) {
+THRU.setSceneDispose = function ( obj = THR.scene.children ) {
 	//console.log( 'THR.scene', THR.scene );
 
 	THR.scene.traverse( function ( child ) {
@@ -321,19 +321,19 @@ THRU.setSceneDispose = function( obj = THR.scene.children ) {
 
 
 
-THRU.getRendererInfo = function() {
+THRU.getRendererInfo = function () {
 	//console.log( 'THR.renderer.info', THR.renderer.info );
 
 	const htm =
-	`
+		`
 		<p>
 			memory:<br>
-			geometries: ${ THR.renderer.info.memory.geometries.toLocaleString() }
+			geometries: ${ THR.renderer.info.memory.geometries.toLocaleString()}
 		</p>
 		<p>
 			renderer:<br>
-			triangles: ${ THR.renderer.info.render.triangles.toLocaleString() } <br>
-			lines: ${ THR.renderer.info.render.lines.toLocaleString() } <br>
+			triangles: ${ THR.renderer.info.render.triangles.toLocaleString()} <br>
+			lines: ${ THR.renderer.info.render.lines.toLocaleString()} <br>
 		</p>
 		<p>
 			<button onclick=divRendererInfo.innerHTML=THRU.getRendererInfo(); >update info</button>
@@ -354,26 +354,26 @@ THRU.getRendererInfo = function() {
 
 
 
-THRU.setStats = function() {
+THRU.setStats = function () {
 
-	var script=document.createElement('script');
-	script.onload =function(){
-		var stats=new Stats();
-		document.body.appendChild(stats.dom);
+	var script = document.createElement( 'script' );
+	script.onload = function () {
+		var stats = new Stats();
+		document.body.appendChild( stats.dom );
 
-		requestAnimationFrame( function loop(){
+		requestAnimationFrame( function loop () {
 			stats.update();
-			requestAnimationFrame(loop);
-		});
+			requestAnimationFrame( loop );
+		} );
 	};
-	script.src='https://rawgit.com/mrdoob/stats.js/master/build/stats.min.js';
-	document.head.appendChild(script);
+	script.src = 'https://cdn.jsdelivr.net/gh/mrdoob/stats.js@master/build/stats.min.js';
+	document.head.appendChild( script );
 
 };
 
 
 
-THRU.addSomeLights = function() {
+THRU.addSomeLights = function () {
 
 	THR.lightAmbient = new THREE.AmbientLight( 0x888888 );
 	THR.lightAmbient.name = 'lightAmbient';
@@ -391,7 +391,7 @@ THRU.addSomeLights = function() {
 
 
 
-THRU.getSomeBoxes = function( count = 500, size = 10, material = new THREE.MeshNormalMaterial() ) {
+THRU.getSomeBoxes = function ( count = 500, size = 10, material = new THREE.MeshNormalMaterial() ) {
 
 	//const geometry = new THREE.BoxGeometry( size, size, size );
 	const geometry = new THREE.BoxBufferGeometry( size, size, size );
@@ -420,22 +420,22 @@ THRU.getSomeBoxes = function( count = 500, size = 10, material = new THREE.MeshN
 
 
 
-THRU.drawPlacard = function( text, scale, color, x, y, z ) {
+THRU.drawPlacard = function ( text, scale, color, x, y, z ) {
 
 	// add update
 	// 2016-02-27 ~ https://github.com/jaanga/jaanga.github.io/tree/master/cookbook-threejs/examples/placards
 
 	var placard = new THREE.Object3D();
-	var v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
+	var v = function ( x, y, z ) { return new THREE.Vector3( x, y, z ); };
 
-	var texture = canvasMultilineText( text, { backgroundColor: color }   );
+	var texture = canvasMultilineText( text, { backgroundColor: color } );
 	var spriteMaterial = new THREE.SpriteMaterial( { map: texture, opacity: 0.9, transparent: true } );
 	var sprite = new THREE.Sprite( spriteMaterial );
-	sprite.position.set( x, y, z ) ;
+	sprite.position.set( x, y, z );
 	sprite.scale.set( scale * texture.image.width, scale * texture.image.height );
 
 	var geometry = new THREE.Geometry();
-	geometry.vertices = [ v( 0, 0, 0 ),  v( x, y, z ) ];
+	geometry.vertices = [ v( 0, 0, 0 ), v( x, y, z ) ];
 	var material = new THREE.LineBasicMaterial( { color: 0xaaaaaa } );
 	var line = new THREE.Line( geometry, material );
 
@@ -444,42 +444,42 @@ THRU.drawPlacard = function( text, scale, color, x, y, z ) {
 	return placard;
 
 
-	function canvasMultilineText( textArray, parameters ) {
+	function canvasMultilineText ( textArray, parameters ) {
 
-		parameters = parameters || {} ;
+		parameters = parameters || {};
 
 		var canvas = document.createElement( 'canvas' );
 		var context = canvas.getContext( '2d' );
 		var width = parameters.width ? parameters.width : 0;
 		var font = parameters.font ? parameters.font : '48px monospace';
-		var color = parameters.backgroundColor ? parameters.backgroundColor : 120 ;
+		var color = parameters.backgroundColor ? parameters.backgroundColor : 120;
 
 		if ( typeof textArray === 'string' ) textArray = [ textArray ];
 
 		context.font = font;
 
-		for ( var i = 0; i < textArray.length; i++) {
+		for ( var i = 0; i < textArray.length; i++ ) {
 
 			width = context.measureText( textArray[ i ] ).width > width ? context.measureText( textArray[ i ] ).width : width;
 
 		}
 
 		canvas.width = width + 20;
-		canvas.height =  parameters.height ? parameters.height : textArray.length * 60;
+		canvas.height = parameters.height ? parameters.height : textArray.length * 60;
 
-		context.fillStyle = 'hsl( ' + color + ', 80%, 50% )' ;
-		context.fillRect( 0, 0, canvas.width, canvas.height);
+		context.fillStyle = 'hsl( ' + color + ', 80%, 50% )';
+		context.fillRect( 0, 0, canvas.width, canvas.height );
 
-		context.lineWidth = 1 ;
+		context.lineWidth = 1;
 		context.strokeStyle = '#000';
 		context.strokeRect( 0, 0, canvas.width, canvas.height );
 
-		context.fillStyle = '#000' ;
+		context.fillStyle = '#000';
 		context.font = font;
 
-		for ( i = 0; i < textArray.length; i++) {
+		for ( i = 0; i < textArray.length; i++ ) {
 
-			context.fillText( textArray[ i ], 10, 48  + i * 60 );
+			context.fillText( textArray[ i ], 10, 48 + i * 60 );
 
 		}
 

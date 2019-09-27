@@ -17,7 +17,7 @@ var THRU = {
 
 
 
-THRU.initializeThreejsUtilities= function( radius ) {
+THRU.initializeThreejsUtilities = function ( radius ) {
 
 	//console.log( '', THRU );
 
@@ -39,7 +39,7 @@ THRU.initializeThreejsUtilities= function( radius ) {
 
 	THRU.addSomeLights2();
 
-	window.addEventListener( 'keyup', THRU.onSetRotate , false );
+	window.addEventListener( 'keyup', THRU.onSetRotate, false );
 	THR.renderer.domElement.addEventListener( 'click', THRU.onSetRotate, false );
 	THR.renderer.domElement.addEventListener( 'touchstart', THRU.onSetRotate, false );
 
@@ -47,7 +47,7 @@ THRU.initializeThreejsUtilities= function( radius ) {
 
 
 
-THRU.onSetRotate = function() {
+THRU.onSetRotate = function () {
 
 	THR.controls.autoRotate = false;
 
@@ -61,7 +61,7 @@ THRU.onSetRotate = function() {
 
 ////////// Scene
 
-THRU.setSceneDispose = function( objArr ) {
+THRU.setSceneDispose = function ( objArr ) {
 	// console.log( 'THR.scene', THR.scene );
 
 	THR.scene.traverse( child => {
@@ -88,14 +88,14 @@ THRU.setSceneDispose = function( objArr ) {
 
 ////////// Info / move to a view menu??
 
-THRU.getRendererInfo = function() {
+THRU.getRendererInfo = function () {
 
 	const txt =
-	"Memory" +
-	"\n- Geometries: " + THR.renderer.info.memory.geometries.toLocaleString() +
-	"\n\nRenderer" +
-	"\n- Triangles: " + THR.renderer.info.render.triangles.toLocaleString() +
-	"\n- Lines:" + THR.renderer.info.render.lines.toLocaleString();
+		"Memory" +
+		"\n- Geometries: " + THR.renderer.info.memory.geometries.toLocaleString() +
+		"\n\nRenderer" +
+		"\n- Triangles: " + THR.renderer.info.render.triangles.toLocaleString() +
+		"\n- Lines:" + THR.renderer.info.render.lines.toLocaleString();
 
 	alert( txt );
 
@@ -130,17 +130,17 @@ THRU.getRendererInfo = function() {
 
 
 
-THRU.setStats = function() {
+THRU.setStats = function () {
 
-	const script = document.createElement('script');
+	const script = document.createElement( 'script' );
 
-	script.onload = function() {
+	script.onload = function () {
 
 		const stats = new Stats();
 
 		document.body.appendChild( stats.dom );
 
-		requestAnimationFrame( function loop() {
+		requestAnimationFrame( function loop () {
 
 			stats.update();
 
@@ -150,7 +150,7 @@ THRU.setStats = function() {
 
 	};
 
-	script.src = 'https://rawgit.com/mrdoob/stats.js/master/build/stats.min.js';
+	script.src = 'https://cdn.jsdelivr.net/gh/mrdoob/stats.js@master/build/stats.min.js';
 
 	document.head.appendChild( script );
 
@@ -160,7 +160,7 @@ THRU.setStats = function() {
 
 ////////// Camera and Controls
 
-THRU.zoomObjectBoundingSphere = function( obj ) {
+THRU.zoomObjectBoundingSphere = function ( obj ) {
 	//console.log( 'obj', obj );
 
 	obj = obj || THR.scene;
@@ -208,7 +208,7 @@ THRU.getMeshesVisible = function ( objThree ) { // not??
 
 	THRU.meshGroupVisible = new THREE.Object3D();
 
-	const arr = objThree.children.filter( mesh => mesh.visible ).map ( mesh => mesh.clone() );
+	const arr = objThree.children.filter( mesh => mesh.visible ).map( mesh => mesh.clone() );
 	//THRU.meshGroupVisible.add( ...arr );
 
 	//console.log( 'THRU.meshGroupVisible', THRU.meshGroupVisible );
@@ -220,7 +220,7 @@ THRU.getMeshesVisible = function ( objThree ) { // not??
 
 
 
-THRU.toggleMeshesVisible = function( obj) {
+THRU.toggleMeshesVisible = function ( obj ) {
 
 	obj = obj || THR.scene;
 
@@ -238,7 +238,7 @@ THRU.toggleMeshesVisible = function( obj) {
 
 
 
-THRU.toggleWireframe = function( obj ) {
+THRU.toggleWireframe = function ( obj ) {
 
 	obj = obj || THR.scene;
 
@@ -256,7 +256,7 @@ THRU.toggleWireframe = function( obj ) {
 
 
 
-THRU.toggleSurfaceNormals = function( obj ) {
+THRU.toggleSurfaceNormals = function ( obj ) {
 
 	obj = obj || THR.scene;
 
@@ -319,7 +319,7 @@ THRU.toggleSurfaceNormals = function( obj ) {
 
 
 
-THRU.toggleSurfaceNormalsVisible = function() {
+THRU.toggleSurfaceNormalsVisible = function () {
 
 	var material = new THREE.MeshNormalMaterial();
 
@@ -382,7 +382,7 @@ THRU.toggleSurfaceNormalsVisible = function() {
 };
 
 
-THRU.setObjectOpacity = function( obj, range ) {
+THRU.setObjectOpacity = function ( obj, range ) {
 
 	obj = obj || THR.scene;
 
@@ -406,14 +406,14 @@ THRU.setObjectOpacity = function( obj, range ) {
 
 ////////// Helpers in the scene
 
-THRU.toggleAxesHelper = function() {
+THRU.toggleAxesHelper = function () {
 
 	if ( !THRU.axesHelper ) {
 
 		THRU.axesHelper = new THREE.AxesHelper();
 		THR.scene.add( THRU.axesHelper );
 
-	 } else {
+	} else {
 
 		THRU.axesHelper.visible = !THRU.axesHelper.visible;
 
@@ -430,7 +430,7 @@ THRU.toggleAxesHelper = function() {
 
 
 
-THRU.toggleBoundingBoxHelper = function( obj ){
+THRU.toggleBoundingBoxHelper = function ( obj ) {
 
 	obj = obj || THR.scene;
 
@@ -443,7 +443,7 @@ THRU.toggleBoundingBoxHelper = function( obj ){
 		THRU.boundingBoxHelper.name = "boundingBoxHelper";
 		THR.scene.add( THRU.boundingBoxHelper );
 
-	 } else {
+	} else {
 
 		THRU.boundingBoxHelper.visible = !THRU.boundingBoxHelper.visible;
 
@@ -453,12 +453,12 @@ THRU.toggleBoundingBoxHelper = function( obj ){
 
 
 
-THRU.toggleGroundHelper = function( position, elevation ) {
+THRU.toggleGroundHelper = function ( position, elevation ) {
 
 	// move to THRU but z min should be zero
 
 	position = position || THR.scene.position.clone(),
-	elevation = elevation || 0;
+		elevation = elevation || 0;
 
 	if ( !THRU.groundHelper ) {
 
@@ -469,7 +469,7 @@ THRU.toggleGroundHelper = function( position, elevation ) {
 		//elevation = GBX.boundingBox.box.min.z - 0.001 * THRU.radius;
 		//elevation = 0;
 
-		const geometry = new THREE.PlaneGeometry( 2 * THRU.radius, 2 * THRU.radius);
+		const geometry = new THREE.PlaneGeometry( 2 * THRU.radius, 2 * THRU.radius );
 		const material = new THREE.MeshPhongMaterial( { color: 0x888888, opacity: 0.5, side: 2 } );
 		THRU.groundHelper = new THREE.Mesh( geometry, material );
 		THRU.groundHelper.receiveShadow = true;
@@ -490,7 +490,7 @@ THRU.toggleGroundHelper = function( position, elevation ) {
 
 //////////
 
-THRU.getMeshEdges = function( obj ) {
+THRU.getMeshEdges = function ( obj ) {
 
 	obj = obj || THR.scene;
 
@@ -516,7 +516,7 @@ THRU.getMeshEdges = function( obj ) {
 
 
 
-THRU.toggleEdges = function( obj ) {
+THRU.toggleEdges = function ( obj ) {
 
 	obj = obj || THR.scene;
 
@@ -535,7 +535,7 @@ THRU.toggleEdges = function( obj ) {
 
 ////////// Lights
 
-THRU.addSomeLights = function() {
+THRU.addSomeLights = function () {
 
 	THR.renderer.shadowMap.enabled = true;
 	THR.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -557,7 +557,7 @@ THRU.addSomeLights = function() {
 
 
 
-THRU.addSomeLights2 = function() {
+THRU.addSomeLights2 = function () {
 
 	THR.renderer.shadowMap.enabled = true;
 	THR.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -589,7 +589,7 @@ THRU.addSomeLights2 = function() {
 
 ////////// Get some meshes and stuff for testing or annotating
 
-THRU.getGeometry = function() {
+THRU.getGeometry = function () {
 
 	// useful debug snippet
 	const geometry = new THREE.TorusKnotBufferGeometry( 10, 3, 100, 16 );
@@ -614,7 +614,7 @@ THRU.getGeometry = function() {
 
 
 
-THRU.getSomeBoxes = function( count, size, material ) {
+THRU.getSomeBoxes = function ( count, size, material ) {
 
 	count = count || 500;
 	size = size || 10;
@@ -648,7 +648,7 @@ THRU.getSomeBoxes = function( count, size, material ) {
 
 
 
-THRU.drawPlacard = function( text, scale, color, x, y, z ) {
+THRU.drawPlacard = function ( text, scale, color, x, y, z ) {
 
 	// add update
 	// 2019-07-12 ~ https://github.com/jaanga/jaanga.github.io/tree/master/cookbook-threejs/examples/placards
@@ -662,10 +662,10 @@ THRU.drawPlacard = function( text, scale, color, x, y, z ) {
 
 	const placard = new THREE.Object3D();
 
-	const texture = canvasMultilineText( text, { backgroundColor: color }   );
+	const texture = canvasMultilineText( text, { backgroundColor: color } );
 	const spriteMaterial = new THREE.SpriteMaterial( { map: texture, opacity: 0.9, transparent: true } );
 	const sprite = new THREE.Sprite( spriteMaterial );
-	sprite.position.set( x, y, z ) ;
+	sprite.position.set( x, y, z );
 	sprite.scale.set( scale * texture.image.width, scale * texture.image.height );
 
 	//const geometry = new THREE.Geometry();
@@ -680,42 +680,42 @@ THRU.drawPlacard = function( text, scale, color, x, y, z ) {
 	return placard;
 
 
-	function canvasMultilineText( textArray, parameters ) {
+	function canvasMultilineText ( textArray, parameters ) {
 
-		parameters = parameters || {} ;
+		parameters = parameters || {};
 
 		const canvas = document.createElement( 'canvas' );
 		const context = canvas.getContext( '2d' );
 		var width = parameters.width ? parameters.width : 0;
 		const font = parameters.font ? parameters.font : '48px monospace';
-		const color = parameters.backgroundColor ? parameters.backgroundColor : 120 ;
+		const color = parameters.backgroundColor ? parameters.backgroundColor : 120;
 
 		if ( typeof textArray === 'string' ) textArray = [ textArray ];
 
 		context.font = font;
 
-		for ( var i = 0; i < textArray.length; i++) {
+		for ( var i = 0; i < textArray.length; i++ ) {
 
 			width = context.measureText( textArray[ i ] ).width > width ? context.measureText( textArray[ i ] ).width : width;
 
 		}
 
 		canvas.width = width + 20;
-		canvas.height =  parameters.height ? parameters.height : textArray.length * 60;
+		canvas.height = parameters.height ? parameters.height : textArray.length * 60;
 
-		context.fillStyle = 'hsl( ' + color + ', 80%, 50% )' ;
-		context.fillRect( 0, 0, canvas.width, canvas.height);
+		context.fillStyle = 'hsl( ' + color + ', 80%, 50% )';
+		context.fillRect( 0, 0, canvas.width, canvas.height );
 
-		context.lineWidth = 1 ;
+		context.lineWidth = 1;
 		context.strokeStyle = '#000';
 		context.strokeRect( 0, 0, canvas.width, canvas.height );
 
-		context.fillStyle = '#000' ;
+		context.fillStyle = '#000';
 		context.font = font;
 
-		for ( var i = 0; i < textArray.length; i++) {
+		for ( var i = 0; i < textArray.length; i++ ) {
 
-			context.fillText( textArray[ i ], 10, 48  + i * 60 );
+			context.fillText( textArray[ i ], 10, 48 + i * 60 );
 
 		}
 

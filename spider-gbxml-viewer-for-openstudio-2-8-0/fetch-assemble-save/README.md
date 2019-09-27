@@ -51,7 +51,7 @@ Usage: best to reload page between assemblies. Keep the JavaScript console open 
 
 
 
-### Full screen: [Fetch Assemble Save R2 ]( https://rawgit.com/ladybug-tools/spider-gbxml-tools/develop/fetch-assemble-save/r2/fetch-assemble-save.html )
+### Full screen: [Fetch Assemble Save R2 ]( https://cdn.jsdelivr.net/gh/ladybug-tools/spider-gbxml-tools@develop/fetch-assemble-save/r2/fetch-assemble-save.html )
 
 * Runs files loaded locally - uses xmlhttprequest rather than fetch
 * gbML test file is loaded as expected
