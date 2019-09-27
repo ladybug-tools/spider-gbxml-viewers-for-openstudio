@@ -26,7 +26,7 @@ var sourceTop =
 </head>
 <body>
 <script>
-// https://cdn.rawgit.com/mrdoob/three.js/r108/build/three.min.js
+// https://cdn.jsdelivr.net/gh/mrdoob/three.js@r108/build/three.min.js
 
 `;
 
