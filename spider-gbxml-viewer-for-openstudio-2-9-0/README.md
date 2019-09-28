@@ -1,4 +1,4 @@
-# Spider gbXML Viewer Core for OpenStudio v0.06.00
+# Spider gbXML Viewer Core v0.06.00 for OpenStudio 2.9.0
 
 Tips for this build.
 
