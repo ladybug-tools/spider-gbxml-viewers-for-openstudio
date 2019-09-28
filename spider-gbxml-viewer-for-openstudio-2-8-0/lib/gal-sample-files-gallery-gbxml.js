@@ -50,7 +50,7 @@ GAL.initGallery = function( button ) {
 	}
 
 	GAL.urlGitHubApiContents = 'https://api.github.com/repos/' + GAL.user + GAL.repo + '/contents/' + GAL.pathRepo;
-	GAL.urlGitHubPage = 'https://rawgit.com/' + GAL.user + GAL.repo + '/master/' + GAL.pathRepo;
+	GAL.urlGitHubPage = 'https://cdn.jsdelivr.net/gh/' + GAL.user + GAL.repo + '@master/' + GAL.pathRepo;
 	GAL.urlGitHubSource = 'https://github.com/' + GAL.user + GAL.repo + '/blob/master/' + GAL.pathRepo;
 
 	if ( GAL.button.style.fontStyle !== 'italic' ) {
